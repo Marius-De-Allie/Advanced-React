@@ -1,2 +1,2 @@
-endpoint: https://us1.prisma.sh/marius-de-allie-d2b109/sick-fits-app/dev
+endpoint: ${env:PRISMA_ENDPOINT}
 datamodel: datamodel.prisma
