@@ -1,2 +1,8 @@
 endpoint: ${env:PRISMA_ENDPOINT}
 datamodel: datamodel.prisma
+# secret: ${env:PRISMA_SECRET}
+# post deply hook, which will return be run after each deploy to our prisma server.
+hooks:
+  post-deploy:
+  #  returns our GQL schema from prisma server after each deploy.
+      - graphql get-schema -p prisma
