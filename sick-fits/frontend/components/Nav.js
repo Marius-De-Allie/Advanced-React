@@ -9,7 +9,13 @@ const Nav = () => (
         <Link href="/">
             <a>Home!</a>
         </Link>
-    </div>
+        <Link href="/items">
+            <a>Shop</a>
+        </Link>
+        <Link href="/signup">
+            <a>SignUp</a>
+        </Link>
+      </div>
 );
 
 export default Nav;
