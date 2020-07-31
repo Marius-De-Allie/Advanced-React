@@ -1,5 +1,5 @@
 import App, { Container } from 'next/app';
-
+import Page from '../components/Page';
 // Custom Nextjs App component.
 class MyApp extends App {
     
@@ -7,7 +7,9 @@ class MyApp extends App {
         const { Component } = this.PaymentResponse;
         return (
             <Container>
-                <Component />
+                <Page>
+                    <Component />
+                </Page>
             </Container>
 
         );
