@@ -22,7 +22,7 @@ class MyApp extends App {
                 {/*Wrap entire app in ApolloProvider, so that entire app has access to apollo data*/}
                 <ApolloProvider client={apollo}>
                     <Page>
-                        <Component />
+                        <Component {...pageProps} />
                     </Page>
                 </ApolloProvider>
             </Container>
