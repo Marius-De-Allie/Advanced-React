@@ -1,5 +1,18 @@
 type User {
-  id: ID! @id
+  id: ID! @unique @id
   name: String!
   email: String!
+}
+# Type equivalent to a sql table, or mongo or firebase collection
+type Item {
+  # each field is equivalent to a table column in sql.
+  id: ID! @unique @id
+  title: String!
+  description: String!
+  image: String
+  largeImage: String 
+  price: Int!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  # user: User!
 }
