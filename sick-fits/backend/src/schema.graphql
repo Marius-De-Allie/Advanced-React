@@ -1,3 +1,5 @@
+# PUBLIC FACING API GQL SCHEMA - FRONT END WILL INTERFACE WITH THIS.
+
 # import * from './generated/prisma.graphql'
 
 type Mutation {
