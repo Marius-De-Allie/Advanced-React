@@ -99,6 +99,7 @@ class CreateItem extends React.Component {
                                 value={image}
                                 onChange={this.uploadFile}
                             />
+                            {image && <img src={image} alt="Upload Preview" />}
                             <label htmlFor="title">Title</label>
                             <input 
                                 type="text" 
