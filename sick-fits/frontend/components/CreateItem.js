@@ -57,9 +57,7 @@ class CreateItem extends React.Component {
                 id: res.data.createItem.id
             }
         })
-
     }
-
 
 
     render() {
@@ -73,6 +71,16 @@ class CreateItem extends React.Component {
                     <form onSubmit={this.handleSubmit}>
                         <ErrorMessage error={error} />
                         <fieldset disabled={loading} aria-busy={loading}>
+                            <label htmlFor="file">Image</label>
+                            <input 
+                                type="file" 
+                                name="file" 
+                                id="file" 
+                                placeholder="Upload and image" 
+                                required
+                                value={image}
+                                onChange={this.uploadImage}
+                            />
                             <label htmlFor="title">Title</label>
                             <input 
                                 type="text" 
