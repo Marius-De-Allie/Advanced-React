@@ -18,6 +18,16 @@ const ALL_ITEMS_QUERY = gql`
 
 class Items extends React.Component {
 
+    // state = {
+    //     count: 0
+    // };
+
+    // onButtonClick = () => {
+    //     this.setState(prevState => ({
+    //         count: prevState.count + 1
+    //     }))
+    // }
+
     render() {
         return (
             <div>
@@ -33,6 +43,11 @@ class Items extends React.Component {
                         }
                     }}
                 </Query>
+                {/*<button 
+                    onClick={this.onButtonClick}
+                    style={{backgroundColor: 'orange', border: 'none', padding: '15px'}}
+                >Add +</button>
+                <p>{this.state.count}</p>*/}
             </div>
         );
     }
