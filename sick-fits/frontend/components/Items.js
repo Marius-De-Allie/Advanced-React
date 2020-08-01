@@ -70,4 +70,4 @@ class Items extends React.Component {
     }
 };
 
-export default Items;
+export { Items as default, ALL_ITEMS_QUERY };
