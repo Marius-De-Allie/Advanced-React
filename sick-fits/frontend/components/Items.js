@@ -54,7 +54,7 @@ class Items extends React.Component {
                         } else {
                             console.log(data.items);
                             return <ItemList>
-                                {data.items.map(item => <p key={item.id}>{item.description}</p>
+                                {data.items.map(item => <Item key={item.id} {...item} />
                                 )}
                             </ItemList>
                         }
