@@ -1,6 +1,7 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import styled from 'styled-components';
 
 // GQL query to retrive all items from backend.
 const ALL_ITEMS_QUERY = gql`
@@ -14,6 +15,10 @@ const ALL_ITEMS_QUERY = gql`
             largeImage
         }
     }
+`;
+
+const center = styled.div`
+text-align: center
 `;
 
 class Items extends React.Component {
@@ -30,7 +35,7 @@ class Items extends React.Component {
 
     render() {
         return (
-            <div>
+            <center>
                 <Query query={ALL_ITEMS_QUERY}>
                     {({ data, error, loading }) => {
                         if(loading) {
@@ -48,7 +53,7 @@ class Items extends React.Component {
                     style={{backgroundColor: 'orange', border: 'none', padding: '15px'}}
                 >Add +</button>
                 <p>{this.state.count}</p>*/}
-            </div>
+            </center>
         );
     }
 };
