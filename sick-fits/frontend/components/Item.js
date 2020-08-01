@@ -1,14 +1,34 @@
 import React from 'react';
+import Link from 'next/link';
+import formatMoney from '../lib/formatMoney';
 
 class Item extends React.Component {
 
     render() {
-        const { title, description, price, image, largeImage } = this.props;
+        const { id, title, description, price, image, largeImage } = this.props;
         return (
             <div>
-                <h2>{title}</h2>
+                {image && <img src={image} alt="title" />}
+                <h2>
+                    <Link href={{
+                        pathname: '/item',
+                        query: {id}
+                    }}>
+                        <a>{title}</a>
+                    </Link>
+                </h2>
+                <p>{formatMoney(price)}</p>
                 <p>{description}</p>
-                <p>{`Price: $${price / 100}.00`}</p>
+                <div className="buttonList">
+                    <Link href={{
+                        pathname: 'update',
+                        query: { id }
+                    }}>
+                        <a>Edit</a>
+                    </Link>
+                    <button>Add To Cart</button>
+                    <button>Delete</button>
+                </div>
             </div>
 
         );
