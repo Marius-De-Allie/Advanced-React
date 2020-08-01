@@ -17,8 +17,16 @@ const ALL_ITEMS_QUERY = gql`
     }
 `;
 
-const center = styled.div`
+const Center = styled.div`
 text-align: center
+`;
+
+const ItemList = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 60px;
+    max-width: 1000px;
+    margin: 0 auto;
 `;
 
 class Items extends React.Component {
@@ -35,7 +43,7 @@ class Items extends React.Component {
 
     render() {
         return (
-            <center>
+            <Center>
                 <Query query={ALL_ITEMS_QUERY}>
                     {({ data, error, loading }) => {
                         if(loading) {
@@ -44,7 +52,10 @@ class Items extends React.Component {
                             <p>Error: {error.message}</p>
                         } else {
                             console.log(data.items);
-                            return <p>{`Found ${data.items.length} item${data.items.length === 1 ? '' : 's'}`}</p>
+                            return <ItemList>
+                                {data.items.map(item => <p key={item.id}>{item.description}</p>
+                                )}
+                            </ItemList>
                         }
                     }}
                 </Query>
@@ -53,7 +64,7 @@ class Items extends React.Component {
                     style={{backgroundColor: 'orange', border: 'none', padding: '15px'}}
                 >Add +</button>
                 <p>{this.state.count}</p>*/}
-            </center>
+            </Center>
         );
     }
 };
