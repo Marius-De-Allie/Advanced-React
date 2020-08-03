@@ -2,10 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 // SingleItem Comp.
 import SingleItem from '../components/SingleItem';
+import { checkPropTypes } from 'prop-types';
 
-const Item = () => (
+const Item = ({ query }) => (
     <div>
-        <SingleItem />
+        <SingleItem id={query.id} />
     </div>
 );
 
