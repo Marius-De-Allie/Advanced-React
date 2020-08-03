@@ -3,6 +3,7 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import Item from './Item';
+import Pagination from './Pagination';
 
 // GQL query to retrive all items from backend.
 const ALL_ITEMS_QUERY = gql`
@@ -45,6 +46,7 @@ class Items extends React.Component {
     render() {
         return (
             <Center>
+                <Pagination />
                 <Query query={ALL_ITEMS_QUERY}>
                     {({ data, error, loading }) => {
                         if(loading) {
@@ -65,6 +67,7 @@ class Items extends React.Component {
                     style={{backgroundColor: 'orange', border: 'none', padding: '15px'}}
                 >Add +</button>
                 <p>{this.state.count}</p>*/}
+                <Pagination />
             </Center>
         );
     }
