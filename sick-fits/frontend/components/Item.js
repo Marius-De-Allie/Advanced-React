@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import formatMoney from '../lib/formatMoney';
+import DeleteItem from './DeleteItem';
 
 class Item extends React.Component {
 
@@ -27,7 +28,7 @@ class Item extends React.Component {
                         <a>Edit</a>
                     </Link>
                     <button>Add To Cart</button>
-                    <button>Delete</button>
+                    <DeleteItem>Delete Item</DeleteItem>
                 </div>
             </div>
 
