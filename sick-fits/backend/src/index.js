@@ -1,3 +1,4 @@
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 // import GQL-YOGA screateServer func.
 const createServer = require('./createServer');
@@ -8,6 +9,7 @@ const db = require('./db');
 const server = createServer();
 
 // TODO Use express middleware to handle cookies (JWT).
+server.express.use(cookieParser());
 // TODO Use express middleware to populate current user.
 
 // Start up YOGA server.
