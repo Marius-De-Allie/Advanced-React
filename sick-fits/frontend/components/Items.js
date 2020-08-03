@@ -46,7 +46,7 @@ class Items extends React.Component {
     render() {
         return (
             <Center>
-                <Pagination />
+                <Pagination page={this.props.page} />
                 <Query query={ALL_ITEMS_QUERY}>
                     {({ data, error, loading }) => {
                         if(loading) {
@@ -67,7 +67,7 @@ class Items extends React.Component {
                     style={{backgroundColor: 'orange', border: 'none', padding: '15px'}}
                 >Add +</button>
                 <p>{this.state.count}</p>*/}
-                <Pagination />
+                <Pagination page={this.props.page} />
             </Center>
         );
     }
