@@ -3,6 +3,17 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import styled from 'styled-components';
 import ErrorMessage from './ErrorMessage';
+import Head from 'next/head';
+
+const SingleItemStyles = styled.div`
+    max-width: 1200px;
+    margin: 2rem auto;
+    // box-shadow: 3px 3px 3px
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
+    min-height: 800px;
+`;
 
 const SINGLE_ITEM_QUERY = gql`
     query SINGLE_ITEM_QUERY($id: ID!) {
@@ -11,6 +22,16 @@ const SINGLE_ITEM_QUERY = gql`
             id
             description
             largeImage
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .details {
+            margin: 3rem;
+            font-size: 2rem;
         }
     }
 `;
@@ -27,11 +48,19 @@ class SingleItem extends Component {
                     if(error) return <ErrorMessage error={error} />
                     if(loading) return <p>Loading...</p>
                     if(!data.item) return <p>No item found for {this.props.id}</p>
+                    const { item } = data;
                     return (
-                        <div>
-                            <p>Single Item Comp</p>
-                        </div>
-                    )
+                        <SingleItemStyles>
+                            <Head>
+                                <title>Sick Fits | {item.title}</title>
+                            </Head>
+                            <img src={item.largeImage} alt={item.title} />
+                            <div className="details">
+                                <h2>{`Viewing ${item.title}`}</h2>
+                                <p>{item.description}</p>
+                            </div>
+                        </SingleItemStyles>
+                    );
                 }}
             </Query>
         );
