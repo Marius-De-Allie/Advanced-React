@@ -19,9 +19,21 @@ class SingleItem extends Component {
 
     render() {
         return (
-            <div>
-                <p>Single Item Comp</p>
-            </div>
+            <Query 
+                query={SINGLE_ITEM_QUERY} 
+                variables={{id: this.props.id}}
+            >
+                {({ error, data, loading }) => {
+                    if(error) return <ErrorMessage error={error} />
+                    if(loading) return <p>Loading...</p>
+                    if(!data.item) return <p>No item found for {this.props.id}</p>
+                    return (
+                        <div>
+                            <p>Single Item Comp</p>
+                        </div>
+                    )
+                }}
+            </Query>
         );
     }
 };
