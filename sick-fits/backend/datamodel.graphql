@@ -1,8 +1,21 @@
+enum Permission {
+  ADMIN
+  USER
+  ITEMCREATE
+  ITEMUPDATE
+  ITEMDELETE
+  PERMISSIONUPDATE
+}
+
 type User {
   id: ID! @unique @id
   name: String!
-  email: String!
+  email: String! @unique
+  password: String!
+  resetTokenExpiry: Float
+  # permissions: [Permission!]
 }
+
 # Type equivalent to a sql table, or mongo or firebase collection
 type Item {
   # each field is equivalent to a table column in sql.
