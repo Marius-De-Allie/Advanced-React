@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Signout from './Signout';
 
 const Nav = () => (
     <div>
@@ -15,6 +16,7 @@ const Nav = () => (
         <Link href="/signup">
             <a>SignUp</a>
         </Link>
+        <Signout />
       </div>
 );
 
