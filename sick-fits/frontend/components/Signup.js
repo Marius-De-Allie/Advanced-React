@@ -8,15 +8,49 @@ class Signup extends Component {
     state = {
         name: '',
         email: '',
-        password: '',
-        confirmPassword: ''
+        password: ''
+    }
+
+    handleChange = ({ target }) => {
+        this.setState(() => ({
+            [target.name]: target.value
+        }));
     }
 
     render() {
+        const { email, name, password } = this.state;
         return (
             <Form>
                 <fieldset>
                     <h2>Sign up for an account</h2>
+                    <label htmlFor="email">Email</label>
+                    <input
+                        id="email"
+                        type="email"
+                        name="email"
+                        value={email}
+                        placeholder="Enter email"
+                        onChange={this.handleChange}
+                    />
+                    <label htmlFor="name">Name</label>
+                    <input
+                        id="name"
+                        type="text"
+                        name="name"
+                        value={name}
+                        placeholder="Enter name"
+                        onChange={this.handleChange}
+                    />
+                    <label htmlFor="password">Password</label>
+                    <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        value={password}
+                        placeholder="Enter password"
+                        onChange={this.handleChange}
+                    />
+                    <button type="submit">Submit</button>
                 </fieldset>
 
             </Form>
