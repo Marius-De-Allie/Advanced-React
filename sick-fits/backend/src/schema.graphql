@@ -1,7 +1,7 @@
 # PUBLIC FACING API GQL SCHEMA - FRONT END WILL INTERFACE WITH THIS.
 
 # import * from './generated/prisma.graphql'
-type successMessage {
+type SuccessMessage {
     message: String
 }
 
@@ -10,6 +10,8 @@ type Mutation {
     updateItem(id: ID!, title: String, description: String, price: Int) : Item!
     deleteItem(id: ID!) : Item
     signup(email: String!, password: String!, name: String!): User!
+
+    signout: SuccessMessage
 }
 
 
