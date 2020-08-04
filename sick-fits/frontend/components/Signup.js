@@ -27,43 +27,67 @@ class Signup extends Component {
         }));
     }
 
+    onSubmit = async (evt) => {
+        try {
+            evt.preventDefault();
+            const response = await signup();
+            // Clear input fields.
+            this.setState(() => ({
+                email: '',
+                name: '',
+                password: ''
+            }));
+        } catch(error) {
+            console.log(error.message)
+        }
+    }
+ 
     render() {
         const { email, name, password } = this.state;
         return (
-            <Form>
-                <fieldset>
-                    <h2>Sign up for an account</h2>
-                    <label htmlFor="email">Email</label>
-                    <input
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={email}
-                        placeholder="Enter email"
-                        onChange={this.handleChange}
-                    />
-                    <label htmlFor="name">Name</label>
-                    <input
-                        id="name"
-                        type="text"
-                        name="name"
-                        value={name}
-                        placeholder="Enter name"
-                        onChange={this.handleChange}
-                    />
-                    <label htmlFor="password">Password</label>
-                    <input
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={password}
-                        placeholder="Enter password"
-                        onChange={this.handleChange}
-                    />
-                    <button type="submit">Submit</button>
-                </fieldset>
-
-            </Form>
+            <Mutation
+                mutation={SIGNUP_MUTATION}
+                variables={this.state}
+            >
+                {(signup, { error, loading }) => {
+                    return (
+                        <Form onSubmit={e => e.preventDefault()} method="post">
+                            <fieldset disabled={loading} aria-busy={loading}>
+                                <h2>Sign up for an account</h2>
+                                <ErrorMessage error={error} />
+                                <label htmlFor="email">Email</label>
+                                <input
+                                    id="email"
+                                    type="email"
+                                    name="email"
+                                    value={email}
+                                    placeholder="Enter email"
+                                    onChange={this.handleChange}
+                                />
+                                <label htmlFor="name">Name</label>
+                                <input
+                                    id="name"
+                                    type="text"
+                                    name="name"
+                                    value={name}
+                                    placeholder="Enter name"
+                                    onChange={this.handleChange}
+                                />
+                                <label htmlFor="password">Password</label>
+                                <input
+                                    id="password"
+                                    type="password"
+                                    name="password"
+                                    value={password}
+                                    placeholder="Enter password"
+                                    onChange={this.handleChange}
+                                />
+                                <button type="submit">Submit</button>
+                            </fieldset>
+                        </Form>
+                    );
+                }}
+            </Mutation>
         );
     }
 };
