@@ -1,10 +1,20 @@
 import React from 'react';
+import styled from 'styled-components';
 import Signup from '../components/Signup';
 
-const Signup = props => (
-    <div>
+const Columns = styled.div`
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 20px;
+`;
+
+
+const SignupPage = props => (
+    <Columns>
         <Signup />
-    </div>
+        <Signup />
+        <Signup />
+    </Columns>
 );
 
-export default Signup;
+export default SignupPage;
