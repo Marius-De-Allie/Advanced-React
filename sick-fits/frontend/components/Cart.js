@@ -6,6 +6,8 @@ import Supreme from './styles/Supreme';
 import CloseButton from './styles/CloseButton';
 import SickButton from './styles/SickButton';
 import CartItem from './CartItem';
+import { calcTotalPrice } from '../lib/calcTotalPrice';
+import { formatMoney } from '../lib/formatMoney';
 
 const LOCAL_STATE_QUERY = gql`
     query LOCAL_STATE_QUERY {
@@ -37,7 +39,7 @@ const Cart = props => {
                                     {me.cart.map(cartItem => <CartItem key={cartItem.id} cartItem={cartItem} />)}
                                 </ul>
                                 <footer>
-                                    <p>$10.10</p>
+                                    <p>{formatMoney(calcTotalPrice(me.cart))}</p>
                                     <SickButton>Checkout</SickButton>
                                 </footer>
                             </CartStyles>
