@@ -73,6 +73,37 @@ const Mutation = {
     signout(parent, args, ctx, info) {
         ctx.response.clearCookie('token');
         return { message: 'Goodbye!'}
+    },
+    async addToCart(parent, args, ctx, info) {
+        // 1. Make sure user is signed in.
+        const { userId } = ctx.request;
+        if(!userId) {
+            throw new Error(`You muts be signed in.`);
+        }
+
+        // 2. Query the user's current cart.
+        const [exisitngCartItem] = await ctx.db.query.cartItems({
+            user: { id: userId },
+            item: { id: args.id }
+        });
+        // 3. Check if item already in user's cart. If so increment by 1.
+        if(exisitngCartItem) {
+            return ctx.db.mutation.updateCartItem({
+                where: { id: exisitngCartItem.id },
+                data: { quantity: exisitngCartItem.quantity + 1 }
+            });
+        }
+        // 4. If not create fresh item for that user.
+        return ctx.db.mutation.createCartItem({
+            data: {
+                user: {
+                    connect: { id: userId },
+                },
+                item: {
+                    connect: { id: args.id }
+                }
+            }
+        })
     }
 };
 
