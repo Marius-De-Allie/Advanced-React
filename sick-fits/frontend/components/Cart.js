@@ -28,7 +28,7 @@ const Cart = props => {
                         return (
                             <CartStyles open={data.cartOpen}>
                                 <header>
-                                    <CloseButton title="Close">&times;</CloseButton>
+                                    <CloseButton title="Close" onClick={toggleCart}>&times;</CloseButton>
                                     <Supreme>Your Cart</Supreme>
                                     <p>You Have  __ Items in your cart.</p>
                                 </header>
