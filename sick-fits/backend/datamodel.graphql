@@ -13,7 +13,7 @@ type User {
   email: String! @unique
   password: String!
   resetTokenExpiry: Float
-  # permissions: [Permission!]
+  permissions: [Permission!] @scalarList(strategy: RELATION)
   cart: [CartItem!]!
 }
 
@@ -28,7 +28,7 @@ type Item {
   price: Int!
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
-  # user: User!
+  user: User!
 }
 
 type CartItem {
