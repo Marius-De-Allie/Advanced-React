@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
+import { ArgumentsOfCorrectType } from 'graphql/validation/rules/ArgumentsOfCorrectType';
 // import { CURRENT_USER_QUERY } from ',.User';
 
 const REMOVE_FROM_CART_MUTATION = gql`
@@ -29,12 +30,30 @@ class RemoveFromCart extends React.Component {
         id: PropTypes.string.isRequired
     };
 
+    update = (cache, payload) => {
+        // Read the cache
+        // const data = cache.readQuery({ query: CURRENT_USER_QUERY })
+        // REmove item from cart
+        const cartItemId = payload.data.removeFromCart.id;
+        data.me.cart = data.me.cart.filter(cartItem => cartItem.id !== cartItemId)
+        // Write it back to the cache.
+        // cache.writeQuery({ query: CURRENT_USER_QUERY, data });
+
+    }
+
     render() {
         return (
             <Mutation 
                 mutation={REMOVE_FROM_CART_MUTATION}
                 variables={{ id: this.props.id }}
-
+                update={this.update}
+                optimisticResponse={{
+                    __typename: 'Mutation',
+                    removeFromCart: {
+                        __typename: 'CartItem',
+                        id: this.props.id
+                    }
+                }}
             >
                 {(removeFromCart, { loading, error }) => <BigButton disabled={loading} title="Delete Item">&times;</BigButton>}
             </Mutation>
