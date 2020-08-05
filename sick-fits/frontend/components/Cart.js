@@ -45,4 +45,4 @@ const Cart = props => {
     );
 };
 
-export default Cart;
+export { Cart as default, LOCAL_STATE_QUERY, TOGGLE_CART_MUTATION };
