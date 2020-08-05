@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Nav from './Nav';
+import Cart from './Cart';
 
 const Header = () => (
     <div>
@@ -13,7 +14,7 @@ const Header = () => (
         <div className="sub-bar">
             <p>Search</p>
         </div>
-        <div>Cart</div>
+        <Cart />
     </div>
 );
 

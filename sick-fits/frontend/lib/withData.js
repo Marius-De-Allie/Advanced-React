@@ -13,6 +13,15 @@ function createClient({ headers }) {
         headers,
       });
     },
+    // LOCAL DATA
+    clientState: {
+      resolvbers: {
+
+      },
+      defaults: {
+        cartOpen: true
+      }
+    }
   });
 }
 

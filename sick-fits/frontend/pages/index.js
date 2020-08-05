@@ -6,7 +6,7 @@ import { printIntrospectionSchema } from 'graphql/utilities';
 
 const Home = ({ query }) => (
     <div>
-        <Items page={parseFloat(query.page) || 1} />
+        {/*<Items page={parseFloat(query.page) || 1} />*/}
     </div>
 );
 
