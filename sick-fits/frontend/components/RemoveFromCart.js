@@ -17,6 +17,9 @@ border: 0;
 `;
 
 class RemoveFromCart extends React.Component {
+    static propTypes = {
+        id: PropTypes.string.isRequired
+    };
 
     render() {
         return (

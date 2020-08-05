@@ -2,6 +2,7 @@ import React from 'react';
 import formatMoney from '../lib/formatMoney';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import RemoveFromCart from './RemoveFromCart';
 
 const cartItemsStyles = styled.li`
     padding: 1rem;
@@ -32,6 +33,7 @@ const CartItem = ({ cartItem }) => (
             </p>
             <p>{cartItem.item.description}</p>
         </div>
+        <RemoveFromCart id={cartItem.id} />
     </cartItemsStyles>
 );
 
