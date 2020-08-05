@@ -83,15 +83,17 @@ const Mutation = {
 
         // 2. Query the user's current cart.
         const [exisitngCartItem] = await ctx.db.query.cartItems({
-            user: { id: userId },
-            item: { id: args.id }
+            where: {
+                user: { id: userId },
+                item: { id: args.id }
+            }
         });
         // 3. Check if item already in user's cart. If so increment by 1.
         if(exisitngCartItem) {
             return ctx.db.mutation.updateCartItem({
                 where: { id: exisitngCartItem.id },
                 data: { quantity: exisitngCartItem.quantity + 1 }
-            });
+            }, info);
         }
         // 4. If not create fresh item for that user.
         return ctx.db.mutation.createCartItem({
@@ -103,7 +105,7 @@ const Mutation = {
                     connect: { id: args.id }
                 }
             }
-        })
+        }, info)
     }
 };
 
