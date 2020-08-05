@@ -5,6 +5,7 @@ import CartStyles from './styles/CartStyles';
 import Supreme from './styles/Supreme';
 import CloseButton from './styles/CloseButton';
 import SickButton from './styles/SickButton';
+import CartItem from './CartItem';
 
 const LOCAL_STATE_QUERY = gql`
     query LOCAL_STATE_QUERY {
@@ -32,6 +33,9 @@ const Cart = props => {
                                     <Supreme>Your Cart</Supreme>
                                     <p>You Have  __ Items in your cart.</p>
                                 </header>
+                                <ul>
+                                    {me.cart.map(cartItem => <CartItem key={cartItem.id} cartItem={cartItem} />)}
+                                </ul>
                                 <footer>
                                     <p>$10.10</p>
                                     <SickButton>Checkout</SickButton>
