@@ -14,6 +14,7 @@ type User {
   password: String!
   resetTokenExpiry: Float
   # permissions: [Permission!]
+  cart: [CartItem!]!
 }
 
 # Type equivalent to a sql table, or mongo or firebase collection
@@ -28,4 +29,12 @@ type Item {
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   # user: User!
+}
+
+type CartItem {
+  id: ID! @id @unique
+  quantity: Int! @default(value: 1)
+  item: Item # relationaship to Item 
+  user: User # relationship to User
+
 }
