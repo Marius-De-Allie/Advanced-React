@@ -18,7 +18,10 @@ class DeleteItem extends React.Component {
 
     handleDelete = () => {
         if(confirm('Are you sure you want to delete this item?')) {
-            deleteItem();
+            deleteItem()
+            .catch(err => {
+                alert(err.message);
+            });
         }
     }
 
