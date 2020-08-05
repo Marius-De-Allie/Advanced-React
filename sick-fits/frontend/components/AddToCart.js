@@ -17,7 +17,13 @@ class AddToCart extends Component {
         const { id} = this.props;
         return (
             <Mutation mutation={ADD_TO_CART_MUTATION} variables={{id}} refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
-                {(addToCart) => <button onClick={addToCart}>Add To Cart</button>}
+                {(addToCart, { error, loading }) => 
+                    <button 
+                        onClick={addToCart} 
+                        disabled={loading}
+                    >
+                        Add{loading && 'ing'} To Cart
+                    </button>}
             </Mutation>
         );
     }
