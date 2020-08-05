@@ -13,6 +13,7 @@ type Mutation {
 
     signout: SuccessMessage
     addToCart(id: ID!): CartItem
+    removeFromCart(id: ID!): CartItem
 }
 
 
