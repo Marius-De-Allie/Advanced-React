@@ -2,6 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import Nav from './Nav';
 import Cart from './Cart';
+import Search from './Search';
+import { SearchStyles } from './styles/DropDown';
 
 const Header = () => (
     <div>
@@ -12,7 +14,7 @@ const Header = () => (
             <Nav />
         </div>
         <div className="sub-bar">
-            <p>Search</p>
+            <Search />
         </div>
         <Cart />
     </div>
