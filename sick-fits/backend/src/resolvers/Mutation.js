@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { SingleFieldSubscriptions } = require("graphql/validation/rules/SingleFieldSubscriptions");
+const stripe = require('../stripe');
 
 const Mutation = {
     async createItem(parent, args, ctx, info) {
@@ -148,13 +149,39 @@ const Mutation = {
                 0
             );
 
-        // Create the stripe charge.
-        // Convert the cartItems to OrderItems
-        // Create the order.
-        // Clear the user's cart.
-        // Delete CartItems.
-        // Return the order to the client
+        // Create the stripe charge (turn token into $).
+        const charge = await stripe.charges.create({
+            amount,
+            currency: 'USD',
+            source: args.token
+        });
 
+        // Convert the cartItems to OrderItems
+        const orderItems = user.cart.map(cartItem => { 
+            const orderItem = {
+                ...cartItem.item,
+                quantity: cartItem.quantity,
+                user: { connect: { id: userId }}
+            }
+            delete orderItem.id;
+            return orderItem;
+        })
+        // Create the order.
+        const order = await ctx.db.mutation.createOrder({
+            data: {
+                total: charge.amount,
+                charge: charge.id,
+                items: { create: orderItems },
+                user: { connect: { id: userId }}
+            }
+        })
+        // Clear the user's cart & delete CartItems..
+        const cartItemIds = user.cart.map(cartItem => cartItem.id);
+        await ctx.db.mutation.deleteCartItems({ where: {
+            id_in: cartItemIds
+        }})
+        // Return the order to the client
+        return order;
     }
 };
 
