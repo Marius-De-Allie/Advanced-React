@@ -1,11 +1,12 @@
 import React from 'react';
 // Next Link component, similar to react router Link component.
 import Link from 'next/link';
+import Order from '../components/Order';
 
-const Order = () => (
+const OrderPage = () => (
     <div>
-        <h2>This is a single order!</h2>
+        <Order id={props.query.id} />
     </div>
 );
 
-export default Order;
+export default OrderPage;
