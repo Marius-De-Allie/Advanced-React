@@ -7,6 +7,7 @@ import gql from 'graphql-tag';
 import formatMoney from '../lib/formatMoney';
 import ErrorMessage from './ErrorMessage';
 import OrderStyles from './styles/OrderStyles';
+import OrderItem from './OrderItem';
 
 const SINGLE_ORDER_QUERY = gql`
     query SINGLE_ORDER_QUERY($id: ID!) {
@@ -44,10 +45,42 @@ class Order extends React.Component {
                 {({ data, error, loading }) => {
                     if(error) return <ErrorMessage error={error.message} />
                     if(loading) return <p>Loading...</p>
+                    const order = data.order;
                     return (
-                    <div>
-                        <p>Order ID: {this.props.id}</p>
-                    </div>
+                    <OrderStyles>
+                        <Head>
+                            <title>Sick Fits - Order {order.title}</title>
+                        </Head>
+                        <p>
+                            <span>Order ID:</span>
+                            <span>{this.props.id}</span>
+                        </p>
+                        <p>
+                            <span>Charge</span>
+                            <span>{order.charge}</span>
+                        </p>
+                        <p>
+                            <span>Date</span>
+                            <span>
+                                {format(order.createdAt, 'MMMM d, YYYY h:mm a')}
+                            </span>
+                        </p>
+                        <p>
+                            <span>Order Total</span>
+                            <span>
+                                {formatMoney(order.total)}
+                            </span>
+                        </p>
+                        <p>
+                            <span>Item Count</span>
+                            <span>
+                                {order.items.length}
+                            </span>
+                        </p>
+                        <div className="items">
+                            {order.items.map(item => <OrderItem item={item} key={item.id}/>)}
+                        </div>
+                    </OrderStyles>
                     );
                 }}
             </Query>
