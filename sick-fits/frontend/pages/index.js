@@ -6,8 +6,11 @@ import { printIntrospectionSchema } from 'graphql/utilities';
 
 const Home = ({ query }) => (
     <div>
-        {/*<Items page={parseFloat(query.page) || 1} />*/}
+       HOme!
     </div>
 );
 
 export default Home;
+
+
+{/* <Items page={parseFloat(query.page) || 1} /> */}

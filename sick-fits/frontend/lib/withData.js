@@ -14,7 +14,7 @@ function createClient({ headers }) {
         headers,
       });
     },
-    // LOCAL DATA
+  //   // LOCAL DATA
     clientState: {
       resolvers: {
         Mutation: {
@@ -29,13 +29,14 @@ function createClient({ headers }) {
             };
             cache.writeData(data);
             return data;
+          },
         },
       },
     },
     defaults: {
       cartOpen: false
     }
-  });
-}
+  })
+};
 
 export default withApollo(createClient);

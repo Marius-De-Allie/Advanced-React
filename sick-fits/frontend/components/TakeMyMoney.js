@@ -59,7 +59,7 @@ class TakeMyMoney extends Component {
                 {this.props.children}
                 <Mutation
                     mutation={CREATE_ORDER_MUTATION}
-                    {/*refetchQueries={[{ query: CURRENT_USER_QUERY }]}*/}
+                   
                 >
                     {(createOrder) => (
                         <StripeCheckout
@@ -85,3 +85,4 @@ class TakeMyMoney extends Component {
 export default TakeMyMoney;
 
 
+//  {/*refetchQueries={[{ query: CURRENT_USER_QUERY }]}*/} gos to line 62
