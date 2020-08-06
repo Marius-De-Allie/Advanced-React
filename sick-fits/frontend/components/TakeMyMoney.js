@@ -33,7 +33,7 @@ class TakeMyMoney extends Component {
     onToken = async (res, createOrder) => {
         const id = await res.id
         // manually call the createOrder mutation once we have the stripe token.
-        createOrder({
+        const order = await createOrder({
             variables: {
                 token: id
             }
@@ -61,7 +61,7 @@ class TakeMyMoney extends Component {
                             amount={calcTotalPrice(me.cart)}
                             name="Sick Fits"
                             description={`Order of ${this.totalItems(me.cart)} items`}
-                            image={me.cart[0].item && me.cart[0].item.image}
+                            image={me.cart.length && me.cart[0].item && me.cart[0].item.image}
                             stripeKey={process.env.STRIPE_PUB_KEY}
                             currency="USD"
                             email={me.email}

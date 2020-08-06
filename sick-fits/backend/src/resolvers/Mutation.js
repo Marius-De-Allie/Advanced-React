@@ -138,7 +138,7 @@ const Mutation = {
         }}, `{ 
                 id name email cart { 
                     id quantity item { 
-                        title price id description image 
+                        title price id description image largeImage
                     }
                 }
             }`);
