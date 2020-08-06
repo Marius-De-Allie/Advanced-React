@@ -9,14 +9,38 @@ import calcTotalPrice from '../lib/calcTotalPrice';
 import ErrorMessage from './ErrorMessage';
 // import User, { CURRENT_USER_QUERY } from './User';
 
+const CREATE_ORDER_MUTATION = gql`
+    mutation createOrder($token: String!) {
+        # call serverside mutation.
+        createOrder(token: $token) {
+            id
+            charge
+            total
+            items {
+                id
+                title
+            }
+        }
+    }
+`;
+
 class TakeMyMoney extends Component {
 
     totalItems = cart => {
         return cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)
     }
 
-    OnToken = async res => {
+    onToken = async (res, createOrder) => {
         const id = await res.id
+        // manually call the createOrder mutation once we have the stripe token.
+        createOrder({
+            variables: {
+                token: id
+            }
+        })
+        .catch(e => {
+            alert(e.message);
+        });
     };
 
     render() {
@@ -28,18 +52,25 @@ class TakeMyMoney extends Component {
                     )}
                 </User>*/}
                 {this.props.children}
-                <StripeCheckout
-                    amount={calcTotalPrice(me.cart)}
-                    name="Sick Fits"
-                    description={`Order of ${this.totalItems(me.cart)} items`}
-                    image={me.cart[0].item && me.cart[0].item.image}
-                    stripeKey={process.env.STRIPE_PUB_KEY}
-                    currency="USD"
-                    email={me.email}
-                    token={res => this.onToken(res)}
+                <Mutation
+                    mutation={CREATE_ORDER_MUTATION}
+                    {/*refetchQueries={[{ query: CURRENT_USER_QUERY }]}*/}
                 >
-                    {this.props.children}
-                </StripeCheckout>
+                    {(createOrder) => (
+                        <StripeCheckout
+                            amount={calcTotalPrice(me.cart)}
+                            name="Sick Fits"
+                            description={`Order of ${this.totalItems(me.cart)} items`}
+                            image={me.cart[0].item && me.cart[0].item.image}
+                            stripeKey={process.env.STRIPE_PUB_KEY}
+                            currency="USD"
+                            email={me.email}
+                            token={res => this.onToken(res, createOrder)}
+                        >
+                            {this.props.children}
+                        </StripeCheckout>
+                    )}
+                </Mutation>
 
             </div>
         );
