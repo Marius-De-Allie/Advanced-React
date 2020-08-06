@@ -8,6 +8,27 @@ import formatMoney from '../lib/formatMoney';
 import ErrorMessage from './ErrorMessage';
 import OrderStyles from './styles/OrderStyles';
 
+const SINGLE_ORDER_QUERY = gql`
+    query SINGLE_ORDER_QUERY($id: ID!) {
+        order(id: $id) {
+            id
+            charge
+            total
+            createdAt
+            user {
+                id
+            }
+            items {
+                id
+                title
+                description
+                price
+                image
+                quantity
+            }
+        }
+    }
+`;
 
 class Order extends React.Component {
     static propTypes = {
