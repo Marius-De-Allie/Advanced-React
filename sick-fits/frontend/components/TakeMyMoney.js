@@ -15,6 +15,10 @@ class TakeMyMoney extends Component {
         return cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)
     }
 
+    OnToken = async res => {
+        const id = await res.id
+    };
+
     render() {
         return (
             <div>
@@ -29,7 +33,7 @@ class TakeMyMoney extends Component {
                     name="Sick Fits"
                     description={`Order of ${this.totalItems(me.cart)} items`}
                     image={me.cart[0].item && me.cart[0].item.image}
-                    stripeKey="placeholder"
+                    stripeKey={process.env.STRIPE_PUB_KEY}
                     currency="USD"
                     email={me.email}
                     token={res => this.onToken(res)}
