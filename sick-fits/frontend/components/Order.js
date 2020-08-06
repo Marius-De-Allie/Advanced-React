@@ -37,9 +37,20 @@ class Order extends React.Component {
 
     render() {
         return (
-            <div>
-                <p>Order ID: {this.props.id}</p>
-            </div>
+            <Query 
+                query={SINGLE_ORDER_QUERY}
+                variables={{ id: this.props.id}}
+            >
+                {({ data, error, loading }) => {
+                    if(error) return <ErrorMessage error={error.message} />
+                    if(loading) return <p>Loading...</p>
+                    return (
+                    <div>
+                        <p>Order ID: {this.props.id}</p>
+                    </div>
+                    );
+                }}
+            </Query>
         );
     }
 };
