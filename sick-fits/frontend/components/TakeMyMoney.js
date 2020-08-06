@@ -11,15 +11,31 @@ import ErrorMessage from './ErrorMessage';
 
 class TakeMyMoney extends Component {
 
+    totalItems = cart => {
+        return cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)
+    }
+
     render() {
         return (
             <div>
                 {/*<>User>
                     {({ data: { me } }) => (
-                        <p>Checkout</p>
+                        <StripeCheckout>{this.props.children}</StripeCheckout>
                     )}
                 </User>*/}
-
+                {this.props.children}
+                <StripeCheckout
+                    amount={calcTotalPrice(me.cart)}
+                    name="Sick Fits"
+                    description={`Order of ${this.totalItems(me.cart)} items`}
+                    image={me.cart[0].item && me.cart[0].item.image}
+                    stripeKey="placeholder"
+                    currency="USD"
+                    email={me.email}
+                    token={res => this.onToken(res)}
+                >
+                    {this.props.children}
+                </StripeCheckout>
 
             </div>
         );
