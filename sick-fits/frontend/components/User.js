@@ -4,12 +4,13 @@ import { Query } from 'react-apollo';
 import PropTypes from 'prop-types';
 
 const CURRENT_USER_QUERY = gql`
-    query CURRENT_USER_QUERY {
-        me {
-            id
-            email
-            name
-            permissions
+        query {
+            me {
+                id
+                email
+                name
+                permissions
+            }
         }
     }
 `;

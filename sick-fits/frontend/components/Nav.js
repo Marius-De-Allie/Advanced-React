@@ -4,10 +4,19 @@ import { Mutation } from 'react-apollo';
 import Signout from './Signout';
 import CartCount from './CartCount';
 import { TOGGLE_CART_MUTATION } from './Cart';
+import NavStyles from './styles/NavStyles';
+import User from './User';
 
 
 const Nav = () => (
-    <div>
+    <NavStyles>
+        <User>
+            {({ data: { me }} ) => {
+                console.log(me)
+                if(me) return <p>{me.name}</p>;
+                return null;
+;            }}
+        </User>
         <Link href="/sell">
             <a>Sell!</a>
         </Link>
@@ -28,7 +37,7 @@ const Nav = () => (
                 <CartCount count={menubar.cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)} />
             </button>}
         </Mutation>
-      </div>
+      </NavStyles>
 );
 
 export default Nav;
