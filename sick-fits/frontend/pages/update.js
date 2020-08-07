@@ -4,7 +4,7 @@ import Link from 'next/link';
 import UpdateItem from '../components/UpdateItem';
 
 const Update = ({ query }) => (
-    <div className="update-page">
+    <div>
         <h2>Update Item</h2>
         <UpdateItem id={query.id} />
     </div>

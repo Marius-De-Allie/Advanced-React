@@ -202,15 +202,15 @@ const Mutation = {
             where: {
                 id: args.id
             }
-        }, `{ id, user { id }}`)
+        }, `{ id, user { id }}`);
         // 2. Make sure we found an item.
         if(!cartItem) throw new Error('No CartItem Found!');
-        // 3. Make sure user own that item.
+        // 3. Make sure user own's that item.
         if(cartItem.user.id !== ctx.request.userId) {
-            throw new Error(`Sorry you do not own this item and therefore can't delete it`);
+            throw new Error(`Sorry you do not own this item and therefore can't delete it.`);
         }
         // 4. Delete cart item.
-        return ctxdb.mutation.deleteCartItem({
+        return ctx.db.mutation.deleteCartItem({
             where: {
                 id: args.id
             }

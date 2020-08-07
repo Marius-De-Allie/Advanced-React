@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import Router from 'next/router';
 import formatMoney from '../lib/formatMoney';
 import ErrorMessage from './ErrorMessage';
+import Form from './styles/Form';
 
 const SINGLE_ITEM_QUERY = gql`
     query SINGLE_ITEM_QUERY($id: ID!) {
@@ -13,9 +14,9 @@ const SINGLE_ITEM_QUERY = gql`
             description
             price
         }
-
     }
 `;
+
 const UPDATE_ITEM_MUTATION = gql`
     mutation UPDATE_ITEM_MUTATION(
         $id: ID!
@@ -40,7 +41,7 @@ const UPDATE_ITEM_MUTATION = gql`
 `;
 
 class UpdateItem extends React.Component {
-
+    // component state
     state = {};
 
     handleOnChange = ({ target }) => {
@@ -52,10 +53,10 @@ class UpdateItem extends React.Component {
 
     }
 
-    updateItem = async (evt, updateItemMutation) => {
+    updateItem = async (evt, mutation) => {
         evt.preventDefault();
         // Call the mutation.
-        const res = await updateItemMutation({
+        const res = await mutation({
             variables: {
                 id: this.props.id,
                 ...this.state
@@ -65,7 +66,7 @@ class UpdateItem extends React.Component {
         Router.push({
             pathname: '/item',
             query: {
-                id: res.data.createItem.id
+                id: res.data.updateItem.id
             }
         })
     }
@@ -88,7 +89,7 @@ class UpdateItem extends React.Component {
                     variables={this.state}
                     >
                         {(updateItem, { loading, error }) => (
-                            <form onSubmit={e => this.updateItem(e, updateItem)}>
+                            <Form onSubmit={evt => this.updateItem(evt, updateItem)}>
                                 <ErrorMessage error={error} />
                                 <fieldset disabled={loading} aria-busy={loading}>
                                     <label htmlFor="title">Title</label>
@@ -122,7 +123,7 @@ class UpdateItem extends React.Component {
                                         />
                                     <button type="submit">Save{loading ? 'ing' : ''} Changes</button>
                                 </fieldset>
-                            </form>
+                            </Form>
                         )}
                         </Mutation>
                     )

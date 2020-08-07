@@ -24,7 +24,6 @@ const CREATE_ITEM_MUTATION = gql`
             id
         }
     }
-
 `;
 
 class CreateItem extends React.Component {
@@ -44,10 +43,10 @@ class CreateItem extends React.Component {
         }));
     }
 
-    handleSubmit = async evt => {
+    handleSubmit = async (evt, mutation) => {
         evt.preventDefault();
         // Call the mutation.
-        const res = await createItem();
+        const res = await mutation();
         // redirect to single item page
         Router.push({
             pathname: '/item',
@@ -56,23 +55,23 @@ class CreateItem extends React.Component {
     };
 
     // Handle uploading of images
-    // uploadFile =  async (evt) => {
-    //     const files = evt.target.files;
-    //     const data = new FormData();
-    //     data.append('file', files[0]);
-    //     data.append('upload_preset', 'sickfits');
-    //     const res = await fetch('https://res.cloudinary.com/dvvysxtc9/image/upload/', 
-    //     {
-    //         method: 'POST',
-    //         body: data
-    //     });
-    //     const file = await res.json(); 
-    //     console.log(file);
-    //     this.setState(() => ({
-    //         image: file.secure_url,
-    //         // largeImage: file.eager[0].secure_url
-    //     }));
-    // }
+    uploadFile =  async(evt) => {
+        const files = evt.target.files;
+        const data = new FormData();
+        data.append('file', files[0]);
+        data.append('upload_preset', 'sickfits');
+        const res = await fetch('https://api.cloudinary.com/v1_1/dvvysxtc9/image/upload', 
+        {
+            method: 'POST',
+            body: data
+        });
+        const file = await res.json(); 
+        console.log(file);
+        this.setState(() => ({
+            image: file.secure_url,
+            largeImage: file.eager[0].secure_url
+        }));
+    };
 
     render() {
         const {title, description, image, largeImage, price} = this.state;
@@ -82,15 +81,24 @@ class CreateItem extends React.Component {
                 variables={this.state}
             >
                 {(createItem, { loading, error }) => (
-                    <Form onSubmit={this.handleSubmit}>
+                    <Form onSubmit={(evt) => this.handleSubmit(evt, createItem)}>
                         <h2>Sell an Item</h2>
                         <ErrorMessage error={error} />
                         <fieldset 
                             disabled={loading} 
                             aria-busy={loading}
                         >
-                          
-                            {image && <img src={image} alt="Upload Preview" />}
+                            {image && <img src={image} width="200" alt="Upload Preview" />}
+                            <label htmlFor="file">Image</label>
+                            <input 
+                                type="file" 
+                                name="file" 
+                                id="file" 
+                                placeholder="Upload an image" 
+                                required
+                                // value={image}
+                                onChange={this.uploadFile}
+                            />
                             <label htmlFor="title">Title</label>
                             <input 
                                 type="text" 

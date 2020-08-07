@@ -13,7 +13,7 @@ const Header = () => (
             <Link href="">
                 <a>Sick Fits</a>
             </Link>
-           {/*<Nav />*/}
+           <Nav />
         </div>
         <div className="sub-bar">
             <Search />
