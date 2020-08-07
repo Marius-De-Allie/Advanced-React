@@ -6,6 +6,19 @@ import { LOCAL_STATE_QUERY } from '../components/Cart';
 function createClient({ headers }) {
   return new ApolloClient({
     uri: process.env.NODE_ENV === 'development' ? endpoint : endpoint,
+    // resolvers: {  
+    //   Mutation: {
+    //   toggleCart(_, variables, { cache }) {
+    //     // read the cartOpen val from cache.
+    //     const { cartOpen } = cache.readQuery({
+    //       query: LOCAL_STATE_QUERY
+    //     });
+    //     // Write cart state to opposite.
+    //     const data = {
+    //       data: { cartOpen: !cartOpen }
+    //     };
+    //   },
+    // }},
     request: operation => {
       operation.setContext({
         fetchOptions: {
@@ -15,25 +28,25 @@ function createClient({ headers }) {
       });
     },
   //   // LOCAL DATA
-    clientState: {
-      resolvers: {
-        mutation: {
-          toggleCart(_, variables, { cache }) {
-            // read the cartOpen val from cache.
-            const { cartOpen } = cache.readQuery({
-              query: LOCAL_STATE_QUERY
-            });
-            // Write cart state to opposite.
-            const data = {
-              data: { cartOpen: !cartOpen }
-            };
-          },
-        }
-      },
-      defaults: {
-        cartOpen: false
-      }
-    },
+    // clientState: {
+    //   resolvers: {
+    //     Mutation: {
+    //       toggleCart(_, variables, { cache }) {
+    //         // read the cartOpen val from cache.
+    //         const { cartOpen } = cache.readQuery({
+    //           query: LOCAL_STATE_QUERY
+    //         });
+    //         // Write cart state to opposite.
+    //         const data = {
+    //           data: { cartOpen: !cartOpen }
+    //         };
+    //       },
+    //     }
+    //   },
+    //   defaults: {
+    //     cartOpen: false
+    //   }
+    // },
   })
 };
 

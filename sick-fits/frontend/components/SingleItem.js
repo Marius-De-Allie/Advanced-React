@@ -8,12 +8,11 @@ import Head from 'next/head';
 const SingleItemStyles = styled.div`
     max-width: 1200px;
     margin: 2rem auto;
-    // box-shadow: 3px 3px 3px
+    box-shadow: ${props => props.theme.bs}
     display: grid;
     grid-auto-columns: 1fr;
     grid-auto-flow: column;
     min-height: 800px;
-
     img {
         width: 100%;
         height: 100%;
@@ -33,26 +32,15 @@ const SINGLE_ITEM_QUERY = gql`
             description
             largeImage
         }
-        # img {
-        #     width: 100%;
-        #     height: 100%;
-        #     object-fit: contain;
-        # }
-
-        # .details {
-        #     margin: 3rem;
-        #     font-size: 2rem;
-        # }
     }
 `;
 
 class SingleItem extends Component {
-
     render() {
         return (
             <Query 
                 query={SINGLE_ITEM_QUERY} 
-                variables={{id: this.props.id}}
+                variables={{ id: this.props.id }}
             >
                 {({ error, data, loading }) => {
                     if(error) return <ErrorMessage error={error} />

@@ -18,10 +18,11 @@ class DeleteItem extends React.Component {
         // 1. Read the cache for the items you want.
         const data = cache.readQuery({ query: ALL_ITEMS_QUERY });
         // 2. filter the deleted item out of the page
+        console.log(payload);
         data.items = data.items.filter(item => item.id !== payload.data.deleteItem.id)
         // put items back.
         cache.writeQuery({ query: ALL_ITEMS_QUERY, data });
-    }
+    };
 
     render() {
         return (

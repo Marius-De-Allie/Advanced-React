@@ -40,6 +40,9 @@ type CartItem {
   quantity: Int! @default(value: 1)
   item: Item # relationaship to Item 
   user: User! # relationship to User
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+
 }
 
 type OrderItem {
