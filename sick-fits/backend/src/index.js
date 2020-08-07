@@ -26,7 +26,7 @@ server.express.use((req, res, next) => {
 // Start up YOGA server.
 server.start({
     cors: {
-        credentials: true,
+        credentials: false,
         origin: process.env.FRONTEND_URL
     }
 }, details => {
