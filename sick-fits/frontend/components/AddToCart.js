@@ -11,12 +11,16 @@ const ADD_TO_CART_MUTATION = gql`
         }
     }
 `;
-class AddToCart extends Component {
 
+class AddToCart extends Component {
     render() {
-        const { id} = this.props;
+        const { id } = this.props;
         return (
-            <Mutation mutation={ADD_TO_CART_MUTATION} variables={{id}} refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
+            <Mutation 
+                mutation={ADD_TO_CART_MUTATION} 
+                variables={{ id }} 
+                refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+            >
                 {(addToCart, { error, loading }) => 
                     <button 
                         onClick={addToCart} 
