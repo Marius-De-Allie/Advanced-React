@@ -3,11 +3,11 @@ import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag';
 import Form from './styles/Form';
 import ErrorMessage from './ErrorMessage';
-import{ CURRENT_USER_QUERY } from './User';
+import { CURRENT_USER_QUERY } from './User';
 
-const SIGNUP_MUTATION = gql`
-    mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
-        signup(email: $email, name: $name, password: $password) {
+const SIGNIN_MUTATION = gql`
+    mutation SIGNIN_MUTATION($email: String!, $password: String!) {
+        signin(email: $email, password: $password) {
             id
             email
             name
@@ -15,7 +15,7 @@ const SIGNUP_MUTATION = gql`
     }
 `;
 
-class Signup extends Component {
+class Signin extends Component {
     // Component state.
     state = {
         name: '',
@@ -48,44 +48,35 @@ class Signup extends Component {
         const { email, name, password } = this.state;
         return (
             <Mutation
-                mutation={SIGNUP_MUTATION}
+                mutation={SIGNIN_MUTATION}
                 variables={this.state}
                 refetchQueries={[{ query: CURRENT_USER_QUERY }]}
             >
                 {(signup, { error, loading }) => {
                     return (
-                        <Form onSubmit={evt => {this.onSubmit(evt, signup)}} method="post">
+                        <Form onSubmit={evt => {this.onSubmit(evt, signin)}} method="post">
                             <fieldset disabled={loading} aria-busy={loading}>
-                                <h2>Sign up for an account</h2>
+                                <h2>Sign Into your Account</h2>
                                 <ErrorMessage error={error} />
-                                <label htmlFor="email">Email</label>
+                                <label htmlFor="signin-email">Email</label>
                                 <input
-                                    id="email"
+                                    id="signin-email"
                                     type="email"
                                     name="email"
                                     value={email}
                                     placeholder="Enter email"
                                     onChange={this.handleChange}
                                 />
-                                <label htmlFor="name">Name</label>
+                                <label htmlFor="signin-password">Password</label>
                                 <input
-                                    id="name"
-                                    type="text"
-                                    name="name"
-                                    value={name}
-                                    placeholder="Enter name"
-                                    onChange={this.handleChange}
-                                />
-                                <label htmlFor="password">Password</label>
-                                <input
-                                    id="password"
+                                    id="signin-password"
                                     type="password"
                                     name="password"
                                     value={password}
                                     placeholder="Enter password"
                                     onChange={this.handleChange}
                                 />
-                                <button type="submit">Sign Up</button>
+                                <button type="submit">Sign In</button>
                             </fieldset>
                         </Form>
                     );
@@ -95,4 +86,4 @@ class Signup extends Component {
     }
 };
 
-export default Signup;
+export default Signin;

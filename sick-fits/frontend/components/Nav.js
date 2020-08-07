@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Link from 'next/link';
 import { Mutation } from 'react-apollo';
 import Signout from './Signout';
@@ -9,35 +9,41 @@ import User from './User';
 
 
 const Nav = () => (
-    <NavStyles>
         <User>
-            {({ data: { me }} ) => {
-                console.log(me)
-                if(me) return <p>{me.name}</p>;
-                return null;
-;            }}
+            {({ data: { me }} ) => (
+                <NavStyles>
+                    <Link href="/items">
+                        <a>Shop</a>
+                    </Link>
+                    {me && (
+                        <Fragment>
+                            <Link href="/sell">
+                                <a>Sell!</a>
+                            </Link>
+                            <Link href="/orders">
+                                <a>Orders</a>
+                            </Link>
+                            <Link href="/me">
+                                <a>Account</a>
+                            </Link>
+                        </Fragment>
+                    )}
+                    {!me && (
+                        <Link href="/signup">
+                            <a>SignIn</a>
+                        </Link>
+                    )}
+                    <Signout />
+                    <Mutation mutation={TOGGLE_CART_MUTATION}>
+                        {(toggleCart) => 
+                        <button onClick={toggleCart}>
+                            My Cart
+                            <CartCount count={menubar.cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)} />
+                        </button>}
+                    </Mutation>
+                </NavStyles>
+            )}
         </User>
-        <Link href="/sell">
-            <a>Sell!</a>
-        </Link>
-        <Link href="/">
-            <a>Home!</a>
-        </Link>
-        <Link href="/items">
-            <a>Shop</a>
-        </Link>
-        <Link href="/signup">
-            <a>SignUp</a>
-        </Link>
-        <Signout />
-        <Mutation mutation={TOGGLE_CART_MUTATION}>
-            {(toggleCart) => 
-            <button onClick={toggleCart}>
-                My Cart
-                <CartCount count={menubar.cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)} />
-            </button>}
-        </Mutation>
-      </NavStyles>
 );
 
 export default Nav;
