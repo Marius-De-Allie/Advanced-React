@@ -15,6 +15,7 @@ const SIGNUP_MUTATION = gql`
 `;
 
 class Signup extends Component {
+    // Component state.
     state = {
         name: '',
         email: '',
@@ -22,15 +23,15 @@ class Signup extends Component {
     }
 
     handleChange = ({ target }) => {
-        this.setState(() => ({
+        this.setState((prevState) => ({
             [target.name]: target.value
         }));
     }
 
-    onSubmit = async (evt) => {
-        try {
+    onSubmit = async (evt, signupMutation) => {
             evt.preventDefault();
-            const response = await signup();
+        try {
+            const response = await signupMutation();
             // Clear input fields.
             this.setState(() => ({
                 email: '',
@@ -40,7 +41,7 @@ class Signup extends Component {
         } catch(error) {
             console.log(error.message)
         }
-    }
+    };
  
     render() {
         const { email, name, password } = this.state;
@@ -51,7 +52,7 @@ class Signup extends Component {
             >
                 {(signup, { error, loading }) => {
                     return (
-                        <Form onSubmit={e => e.preventDefault()} method="post">
+                        <Form onSubmit={evt => {this.onSubmit(evt, signup)}} method="post">
                             <fieldset disabled={loading} aria-busy={loading}>
                                 <h2>Sign up for an account</h2>
                                 <ErrorMessage error={error} />

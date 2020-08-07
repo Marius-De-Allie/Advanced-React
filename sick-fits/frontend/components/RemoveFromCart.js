@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
-import { ArgumentsOfCorrectType } from 'graphql/validation/rules/ArgumentsOfCorrectType';
 // import { CURRENT_USER_QUERY } from ',.User';
 
 const REMOVE_FROM_CART_MUTATION = gql`

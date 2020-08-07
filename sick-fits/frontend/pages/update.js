@@ -5,7 +5,6 @@ import UpdateItem from '../components/UpdateItem';
 
 const Update = ({ query }) => (
     <div className="update-page">
-        {/* <p>{JSON.stringify(query)}</p> */}
         <h2>Update Item</h2>
         <UpdateItem id={query.id} />
     </div>

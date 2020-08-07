@@ -5,7 +5,6 @@ import CreateItem from '../components/CreateItem';
 
 const Sell = () => (
     <div className="sell-page">
-        <h2>Sell an Item.</h2>
         <CreateItem />
     </div>
 );

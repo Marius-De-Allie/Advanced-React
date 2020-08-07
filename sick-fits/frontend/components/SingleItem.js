@@ -13,26 +13,36 @@ const SingleItemStyles = styled.div`
     grid-auto-columns: 1fr;
     grid-auto-flow: column;
     min-height: 800px;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    .details {
+        margin: 2rem;
+        font-size: 2rem;
+    }
 `;
 
 const SINGLE_ITEM_QUERY = gql`
     query SINGLE_ITEM_QUERY($id: ID!) {
         item(where: { id: $id }) {
-            title
             id
+            title
             description
             largeImage
         }
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+        # img {
+        #     width: 100%;
+        #     height: 100%;
+        #     object-fit: contain;
+        # }
 
-        .details {
-            margin: 3rem;
-            font-size: 2rem;
-        }
+        # .details {
+        #     margin: 3rem;
+        #     font-size: 2rem;
+        # }
     }
 `;
 

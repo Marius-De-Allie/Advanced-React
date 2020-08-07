@@ -6,31 +6,29 @@ const Query = {
         const items = await ctx.db.query.items();
         return items;
     },
-    async item(parent, args, ctx, info) {
-        const item = await ctx.db.query.item();
-        return item;
-    },
+    item: forwardTo('db'),
     itemsConnection: forwardTo('db'),
+    
 
 
 
-    async createOrder(parent, args, ctx, info) {
-        // Make sure user is logged in.
-        if(!ctx.request.userId) {
-            throw new Error(`You are not logged in!`);
-        }
-        // Query current order.
-        const order = await ctx.db.query.order({ 
-            where: { id: args.id}, info});
-        // check if they have permissions to see order
-        const ownsOrder = order.user.id === ctx.request.userId;
-        const hasPermissionToSeeOrder = ctx.request.user.permissions.includes('ADMIN');
-        if(!ownsOrder || !hasPermissionToSeeOrder) {
-            throw new Error(`You can't see this order`);
-        }
-        // return order.
-        return order;
-    }
+    // async createOrder(parent, args, ctx, info) {
+    //     // Make sure user is logged in.
+    //     if(!ctx.request.userId) {
+    //         throw new Error(`You are not logged in!`);
+    //     }
+    //     // Query current order.
+    //     const order = await ctx.db.query.order({ 
+    //         where: { id: args.id}, info});
+    //     // check if they have permissions to see order
+    //     const ownsOrder = order.user.id === ctx.request.userId;
+    //     const hasPermissionToSeeOrder = ctx.request.user.permissions.includes('ADMIN');
+    //     if(!ownsOrder || !hasPermissionToSeeOrder) {
+    //         throw new Error(`You can't see this order`);
+    //     }
+    //     // return order.
+    //     return order;
+    // }
 };
 
 module.exports = Query;

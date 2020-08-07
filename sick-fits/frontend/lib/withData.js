@@ -15,27 +15,27 @@ function createClient({ headers }) {
       });
     },
   //   // LOCAL DATA
-    clientState: {
-      resolvers: {
-        Mutation: {
-          toggleCart(_, variables, { cache }) {
-          // read the cart open val from cache.
-            const { cartOpen } = cache.readQuery({
-              query: LOCAL_STATE_QUERY
-            })
-            // WRITE CART STATE TO OPPOSITE.
-            const data = {
-              data: { cartOpen: !cartOpen }
-            };
-            cache.writeData(data);
-            return data;
-          },
-        },
-      },
-    },
-    defaults: {
-      cartOpen: false
-    }
+    // clientState: {
+    //   resolvers: {
+    //     Mutation: {
+    //       toggleCart(_, variables, { cache }) {
+    //       // read the cart open val from cache.
+    //         const { cartOpen } = cache.readQuery({
+    //           query: LOCAL_STATE_QUERY
+    //         })
+    //         // WRITE CART STATE TO OPPOSITE.
+    //         const data = {
+    //           data: { cartOpen: !cartOpen }
+    //         };
+    //         cache.writeData(data);
+    //         return data;
+    //       },
+    //     },
+    //   },
+    // },
+    // defaults: {
+    //   cartOpen: false
+    // }
   })
 };
 

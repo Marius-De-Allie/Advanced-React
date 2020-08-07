@@ -4,14 +4,15 @@ import gql from 'graphql-tag';
 import Router from 'next/router';
 import formatMoney from '../lib/formatMoney';
 import ErrorMessage from './ErrorMessage';
+import Form from './styles/Form';
 
 const CREATE_ITEM_MUTATION = gql`
     mutation CREATE_ITEM_MUTATION(
-        $title: String!
-        $description: String!
-        $price: Int!
-        $image: String
-        $largeImage: String
+            $title: String!
+            $description: String!
+            $price: Int!
+            $image: String
+            $largeImage: String
         ) {
         createItem(
             title: $title
@@ -22,13 +23,11 @@ const CREATE_ITEM_MUTATION = gql`
         ) {
             id
         }
-
     }
 
 `;
 
 class CreateItem extends React.Component {
-
     state = {
         title: '',
         description: '',
@@ -37,13 +36,12 @@ class CreateItem extends React.Component {
         price: 0
     }
 
-    handleOnChange = ({ target }) => {
-        const { name, type, value } = target;
+    handleOnChange = evt => {
+        const { name, type, value } = evt.target;
         const val = type === 'number' ? parseFloat(value) : value;
         this.setState(prevState => ({
             [name]: val
-        }))
-
+        }));
     }
 
     handleSubmit = async evt => {
@@ -53,30 +51,28 @@ class CreateItem extends React.Component {
         // redirect to single item page
         Router.push({
             pathname: '/item',
-            query: {
-                id: res.data.createItem.id
-            }
+            query: { id: res.data.createItem.id }
         })
-    }
+    };
 
     // Handle uploading of images
-    uploadFile =  async (evt) => {
-        const files = evt.target.files;
-        const data = new FormData();
-        data.append('file', files[0]);
-        data.append('upload_preset', 'sickfits');
-        const res = await fetch('https://res.cloudinary.com/dvvysxtc9/image/upload/', 
-        {
-            method: 'POST',
-            body: data
-        });
-        const file = await res.json(); 
-        console.log(file);
-        this.setState(() => ({
-            image: file.secure_url,
-            // largeImage: file.eager[0].secure_url
-        }));
-    }
+    // uploadFile =  async (evt) => {
+    //     const files = evt.target.files;
+    //     const data = new FormData();
+    //     data.append('file', files[0]);
+    //     data.append('upload_preset', 'sickfits');
+    //     const res = await fetch('https://res.cloudinary.com/dvvysxtc9/image/upload/', 
+    //     {
+    //         method: 'POST',
+    //         body: data
+    //     });
+    //     const file = await res.json(); 
+    //     console.log(file);
+    //     this.setState(() => ({
+    //         image: file.secure_url,
+    //         // largeImage: file.eager[0].secure_url
+    //     }));
+    // }
 
     render() {
         const {title, description, image, largeImage, price} = this.state;
@@ -86,19 +82,14 @@ class CreateItem extends React.Component {
                 variables={this.state}
             >
                 {(createItem, { loading, error }) => (
-                    <form onSubmit={this.handleSubmit}>
+                    <Form onSubmit={this.handleSubmit}>
+                        <h2>Sell an Item</h2>
                         <ErrorMessage error={error} />
-                        <fieldset disabled={loading} aria-busy={loading}>
-                            <label htmlFor="file">Image</label>
-                            <input 
-                                type="file" 
-                                name="file" 
-                                id="file" 
-                                placeholder="Upload an image" 
-                                required
-                                value={image}
-                                onChange={this.uploadFile}
-                            />
+                        <fieldset 
+                            disabled={loading} 
+                            aria-busy={loading}
+                        >
+                          
                             {image && <img src={image} alt="Upload Preview" />}
                             <label htmlFor="title">Title</label>
                             <input 
@@ -129,9 +120,9 @@ class CreateItem extends React.Component {
                                 value={description}
                                 onChange={this.handleOnChange}
                             />
-                            <input type="submit" value="Submit" />
+                            <button type="submit">Submit</button>
                         </fieldset>
-                    </form>
+                    </Form>
                 )}
                 </Mutation>
         )
@@ -141,3 +132,17 @@ class CreateItem extends React.Component {
 export {CreateItem as default, CREATE_ITEM_MUTATION};
 // label htmlFor="price">Price</label>
 // <input type="text" name="Price" id="price" />
+
+
+
+
+                    // <label htmlFor="file">Image</label>
+                    // <input 
+                    //     type="file" 
+                    //     name="file" 
+                    //     id="file" 
+                    //     placeholder="Upload an image" 
+                    //     required
+                    //     value={image}
+                    //     onChange={this.uploadFile}
+                    // />

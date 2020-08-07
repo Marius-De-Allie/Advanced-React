@@ -1,38 +1,44 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Link from 'next/link';
 import formatMoney from '../lib/formatMoney';
 import DeleteItem from './DeleteItem';
 import AddToCart from './AddToCart';
+import Title from './styles/Title';
+import ItemStyles from './styles/ItemStyles';
+import PriceTag from './styles/PriceTag';
 
 class Item extends React.Component {
+    static propTypes = {
+        item: PropTypes.object.isRequired
+    }
 
     render() {
-        const { id, title, description, price, image, largeImage } = this.props;
+        const { item } = this.props;
         return (
-            <div>
-                {image && <img src={image} alt="title" />}
-                <h2>
+            <ItemStyles>
+                {item.image && <img src={item.image} alt={item.title} />}
+                <Title>
                     <Link href={{
                         pathname: '/item',
-                        query: {id}
+                        query: {id: item.id}
                     }}>
-                        <a>{title}</a>
+                        <a>{item.title}</a>
                     </Link>
-                </h2>
-                <p>{formatMoney(price)}</p>
-                <p>{description}</p>
+                </Title>
+                <PriceTag>{formatMoney(item.price)}</PriceTag>
+                <p>{item.description}</p>
                 <div className="buttonList">
                     <Link href={{
                         pathname: 'update',
-                        query: { id }
+                        query: { id: item.id }
                     }}>
                         <a>Edit</a>
                     </Link>
                     <AddToCart />
-                    <DeleteItem id={id}>Delete Item</DeleteItem>
+                    <DeleteItem id={item.id}>Delete Item</DeleteItem>
                 </div>
-            </div>
-
+            </ItemStyles>
         );
     }
 };

@@ -7,7 +7,7 @@ import ErrorMessage from './ErrorMessage';
 
 const SINGLE_ITEM_QUERY = gql`
     query SINGLE_ITEM_QUERY($id: ID!) {
-        item(where: {id: $id}) {
+        item(where: { id: $id }) {
             id
             title
             description
@@ -70,25 +70,7 @@ class UpdateItem extends React.Component {
         })
     }
 
-    // Handle uploading of images
-    uploadFile =  async (evt) => {
-        const files = evt.target.files;
-        const data = new FormData();
-        data.append('file', files[0]);
-        data.append('upload_preset', 'sickfits');
-        const res = await fetch('https://res.cloudinary.com/dvvysxtc9/image/upload/', 
-        {
-            method: 'POST',
-            body: data
-        });
-        const file = await res.json(); 
-        console.log(file);
-        this.setState(() => ({
-            image: file.secure_url,
-            // largeImage: file.eager[0].secure_url
-        }));
-    }
-
+    
     render() {
         return (
             <Query
@@ -99,14 +81,14 @@ class UpdateItem extends React.Component {
             >
                 {({ data, loading }) => {
                     if(loading) return <p>Loading...</p>
-                if(!data.item) return <p>No Item found for ID {this.props.id}</p>
+                    if(!data.item) return <p>No Item found for ID {this.props.id}</p>
                     return (
                     <Mutation 
                     mutation={UPDATE_ITEM_MUTATION} 
                     variables={this.state}
                     >
                         {(updateItem, { loading, error }) => (
-                            <form onSubmit={this.handleSubmit}>
+                            <form onSubmit={e => this.updateItem(e, updateItem)}>
                                 <ErrorMessage error={error} />
                                 <fieldset disabled={loading} aria-busy={loading}>
                                     <label htmlFor="title">Title</label>
@@ -138,7 +120,7 @@ class UpdateItem extends React.Component {
                                         defaultValue={data.item.description}
                                         onChange={this.handleOnChange}
                                         />
-                                    <input type="submit" value="Save Changes" />
+                                    <button type="submit">Save{loading ? 'ing' : ''} Changes</button>
                                 </fieldset>
                             </form>
                         )}
