@@ -26,6 +26,7 @@ const Nav = () => (
                             <Link href="/me">
                                 <a>Account</a>
                             </Link>
+                            <Signout />
                         </Fragment>
                     )}
                     {!me && (
@@ -33,7 +34,6 @@ const Nav = () => (
                             <a>SignIn</a>
                         </Link>
                     )}
-                    <Signout />
                     <Mutation mutation={TOGGLE_CART_MUTATION}>
                         {(toggleCart) => 
                         <button onClick={toggleCart}>
