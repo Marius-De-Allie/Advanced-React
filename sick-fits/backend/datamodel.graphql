@@ -16,6 +16,9 @@ type User {
   resetTokenExpiry: Float
   permissions: [Permission!] @scalarList(strategy: RELATION)
   cart: [CartItem!]!
+  # createdAt: DateTime! @createdAt
+  # updatedAt: DateTime! @updatedAt
+
 }
 
 # Type equivalent to a sql table, or mongo or firebase collection

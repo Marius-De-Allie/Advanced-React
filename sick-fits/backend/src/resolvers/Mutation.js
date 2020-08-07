@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { randomBytes } = require('crypto');
+const { promisify } = require('util');
 // const { SingleFieldSubscriptions } = require("graphql/validation/rules/SingleFieldSubscriptions");
 const stripe = require('../stripe');
 
@@ -93,6 +95,61 @@ const Mutation = {
     signout(parent, args, ctx, info) {
         ctx.response.clearCookie('token');
         return { message: 'Goodbye!'}
+    },
+    async requestReset(parent, args, ctx, info) {
+        // Check if this a real user
+        const user = await ctx.db.query.user({ where: {email: args.email }});
+        if(!user) {
+            throw new Error(`No such user found for email ${args.email}.`);
+        }
+        // Set a reset token and expiry
+        const randomBtyespromisified = promisify(randomBytes);
+        const resetToken = await randomBtyespromisified(20).toString('hex');
+        const resetTokenExpiry = Date.now() + 3600000; // 1 hour from current time.
+        const res = await ctx.db.mutation.updateUser({ 
+            where: { email: args.email },
+            data: { resetToken, resetTokenExpiry }
+        });
+        // email them the reset token
+        
+
+
+    },
+    async resetPassword(parent, args, ctx , info) {
+        // check if passwords macth.
+        if(args.password !== args.confirmPassword) {
+            throw new Error('Your passwords do not match');
+        }
+        // check if reset token is legitimate.
+        // check if its expired
+        const [user] = ctx.db.query.users({ where: {
+            resetToken: args.resetToken,
+            resetTokenExpiry_gte: Date.now()- 3600000
+        }});
+        if(!user) {
+            throw new Error('This token is either invalid or expired.');
+        }
+        // Hash their new password
+        const password = await bcrypt.hash(args.password, 10);
+        // Save the new password to the user and remove old reset token fields
+        const updatedUser = await ctx.db.mutation.updateUser({ 
+            where: { email: user.email},
+            data: {
+                password,
+                resetToken: null,
+                resetTokenExpiry: null
+            }
+        })
+        // Generate  jwt
+        const token = jwt.sign({ userId: updatedUser.id},
+            process.env.APP_SECRET);
+        // set jwt cookie
+        ctx.response.cookie('token', token, {
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60 * 24 * 365
+        });
+        // return the new user
+        return updatedUser;
     },
     async addToCart(parent, args, ctx, info) {
         // 1. Make sure user is signed in.
