@@ -38,7 +38,7 @@ const Cart = props => {
                 return (
                     <CartStyles open={localState.data.cartOpen}>
                         <header>
-                            <CloseButton title="Close" onClick={toggleCart}>&times;</CloseButton>
+                            <CloseButton title="close" onClick={toggleCart}>&times;</CloseButton>
                             <Supreme>Your Cart</Supreme>
                             <p>You Have  __ Items in your cart.</p>
                         </header>
@@ -52,7 +52,7 @@ const Cart = props => {
                             )}
                         </footer>
                     </CartStyles>
-                )
+                );
             }}
         </Composed>
     );

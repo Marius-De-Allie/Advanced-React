@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Mutation } from 'react-apollo'
+import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import Form from './styles/Form';
 import ErrorMessage from './ErrorMessage';
-import{ CURRENT_USER_QUERY } from './User';
+import { CURRENT_USER_QUERY } from './User';
 
 const SIGNUP_MUTATION = gql`
     mutation SIGNUP_MUTATION($email: String!, $name: String!, $password: String!) {
@@ -24,26 +24,11 @@ class Signup extends Component {
     }
 
     handleChange = ({ target }) => {
-        this.setState((prevState) => ({
+        this.setState(prevState => ({
             [target.name]: target.value
         }));
-    }
-
-    onSubmit = async (evt, signupMutation) => {
-            evt.preventDefault();
-        try {
-            const response = await signupMutation();
-            // Clear input fields.
-            this.setState(() => ({
-                email: '',
-                name: '',
-                password: ''
-            }));
-        } catch(error) {
-            console.log(error.message)
-        }
     };
- 
+
     render() {
         const { email, name, password } = this.state;
         return (
@@ -54,7 +39,17 @@ class Signup extends Component {
             >
                 {(signup, { error, loading }) => {
                     return (
-                        <Form onSubmit={evt => {this.onSubmit(evt, signup)}} method="post">
+                        <Form 
+                            method="post" 
+                            onSubmit={async evt => {
+                                evt.preventDefault();
+                                const res = await signup(this.state);
+                                console.log(res);
+                                this.setState(() => ({
+                                    name: '', email: '', password: ''
+                                }));
+                            }}
+                        >
                             <fieldset disabled={loading} aria-busy={loading}>
                                 <h2>Sign up for an account</h2>
                                 <ErrorMessage error={error} />

@@ -1,12 +1,12 @@
 
-import App, { Container} from 'next/app';
-// import OurPage from '../components/Page';
+import App, { Container } from 'next/app';
+import OurPage from '../components/Page';
 import { ApolloProvider } from 'react-apollo';
 import withData from '../lib/withData';
+import Header from '../components/Header';
 
 // Custom Nextjs App component.
 class MyApp extends App {
-
     static async getInitialProps({ Component, ctx }) {
         let pageProps = {};
         if(Component.getInitialProps) {
@@ -22,51 +22,17 @@ class MyApp extends App {
         const { Component, apollo, pageProps } = this.props;
         return (
             <Container>
-            <ApolloProvider client={apollo}>
-                <div>
+                <ApolloProvider client={apollo}>
+                    <OurPage>
+                        
 
-                            <Component {...pageProps} />
-                </div>
+                        <Component {...pageProps} />
+                    </OurPage>
             
                 </ApolloProvider>
             </Container>
-           
-            
-            
         );
     }
 };
 
 export default withData(MyApp);
-
-/* <Container>
-<ApolloProvider client={apollo}>
-    <Page>
-
-    </Page>
-                </ApolloProvider>
-            </Container> */
-
-/* <ApolloProvider client={apollo}> */
-
-/* <Container>
-                    <Page>
-                        <Component {...pageProps} />
-                    </Page>
-            </Container> */
-
-
-    // {/*Wrap entire app in ApolloProvider, so that entire app has access to apollo data*/}
-
-    // render() {
-    //     const { Component, apollo, pageProps } = this.props;
-    //     return (
-    //         <Container>
-    //             <ApolloProvider client={apollo}>
-    //                 <Page>
-    //                     <Component {...pageProps} />
-    //                 </Page>
-    //             </ApolloProvider>
-    //         </Container>
-    //     );
-    // }

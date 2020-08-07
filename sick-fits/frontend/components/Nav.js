@@ -38,7 +38,7 @@ const Nav = () => (
                         {(toggleCart) => 
                         <button onClick={toggleCart}>
                             My Cart
-                            <CartCount count={menubar.cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)} />
+                            <CartCount count={5} />
                         </button>}
                     </Mutation>
                 </NavStyles>
@@ -47,3 +47,5 @@ const Nav = () => (
 );
 
 export default Nav;
+
+{/* <CartCount count={menubar.cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)} /> */}

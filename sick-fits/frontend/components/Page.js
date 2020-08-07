@@ -63,7 +63,7 @@ class Page extends Component {
       </ThemeProvider>
     );
   }
-}
+};
 
 export default Page;
 

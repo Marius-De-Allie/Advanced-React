@@ -26,7 +26,7 @@ const routeToItem = item => {
         }
     })
 };
-class AutoComplete extends React.Componnent {
+class AutoComplete extends React.Component {
 
     state = {
         items: [],

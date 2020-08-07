@@ -55,41 +55,46 @@ const Mutation = {
         return ctx.db.mutation.deleteItem({ where }, info);
     },
     async signup(parent, args, ctx, info) {
-        // Set email to lowercase string.
-        args.email = args.email.toLowerCase();
-        // Hash the password.
-        const password = await bcrypt.hash(args.password, 10);
-        // Create user in db.
-        const user = await ctx.db.mutation.createUser({
-            data: {
-                ...args,
-                password,
-                // set user's default permissions
-                permissions: { set: ['USER'] }
-            }
-        }, info);
-        // Create a JWT token for user.
-        const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
-        // Set jwt as a cookie on response.
-        ctx.response.cookie('token', token, {
-            httpOnly: true,
-            maxAge: 1000 * 60 * 60 * 24 * 365 //1 year cookie
-        });
-        // we return the user to the browser.
-        return user;
+        try {
+            // Set email to lowercase string.
+            args.email = args.email.toLowerCase();
+            // Hash the password.
+            const password = await bcrypt.hash(args.password, 10);
+            // Create the  user in db.
+            const user = await ctx.db.mutation.createUser({
+                data: {
+                    ...args,
+                    password,
+                    // set user's default permissions.
+                    permissions: { set: ['USER'] }
+                }
+            }, info);
+            // Create a JWT token for user.
+            const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+            // Set jwt as a cookie on response.
+            ctx.response.cookie('token', token, {
+                httpOnly: true,
+                maxAge: 1000 * 60 * 60 * 24 * 365 //1 year cookie
+            });
+            // Return the user to the browser.
+            console.log(user);
+            return user;
+
+        } catch(error) {
+            console.log(error.message);
+        }
     },
     async signin(parents, { email, password }, ctx, info) {
-        // 1, Check if there is a user with that email
+        // 1. Check if there is a user with that email
         const user = await ctx.db.query.user({ where: { email }});
         if(!user) {
             throw new Error(`No such user found for email ${email}.`);
         }
-        // 2. Check if there password is correct.
+        // 2. Check if their password is correct.
         const valid = await bcrypt.compare(password, user.password);
         if(!valid) {
             throw new Error(`Invalid password!`);
         }
-
         // 3.Generate jwt token
         const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
         // 4. Set the cookie with the token.
@@ -97,6 +102,7 @@ const Mutation = {
             httpOnly: true,
             maxAge: 1000 * 60 * 60 * 24 * 365
         });
+        console.log('success!')
         return user;
     },
     signout(parent, args, ctx, info) {

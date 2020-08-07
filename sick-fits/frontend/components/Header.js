@@ -1,5 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
+import Router from 'next/router';
+import NProgress from 'nprogress';
 import Nav from './Nav';
 import Cart from './Cart';
 import Search from './Search';
@@ -11,12 +13,12 @@ const Header = () => (
             <Link href="">
                 <a>Sick Fits</a>
             </Link>
-            <Nav />
+           {/*<Nav />*/}
         </div>
         <div className="sub-bar">
             <Search />
         </div>
-        <Cart />
+       {/* <Cart /> */}
     </div>
 );
 

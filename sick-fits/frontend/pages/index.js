@@ -5,6 +5,7 @@ import Items from '../components/Items';
 
 const Home = ({ query }) => (
     <div>
+      TEST
       <Items page={parseFloat(query.page) || 1} /> 
     </div>
 );

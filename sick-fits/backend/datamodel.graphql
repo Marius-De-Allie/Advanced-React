@@ -16,8 +16,8 @@ type User {
   resetTokenExpiry: Float
   permissions: [Permission!] @scalarList(strategy: RELATION)
   cart: [CartItem!]!
-  # createdAt: DateTime! @createdAt
-  # updatedAt: DateTime! @updatedAt
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 
 }
 

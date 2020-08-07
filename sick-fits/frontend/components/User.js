@@ -11,12 +11,12 @@ const CURRENT_USER_QUERY = gql`
             name
             permissions
         }
-}
+    }
 `;
 
 const User = props => (
     <Query {...props} query={CURRENT_USER_QUERY}>
-        {payload => props.childredn(payload)}
+        {payload => props.children(payload)}
     </Query>
 );
 

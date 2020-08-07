@@ -18,7 +18,6 @@ const SIGNIN_MUTATION = gql`
 class Signin extends Component {
     // Component state.
     state = {
-        name: '',
         email: '',
         password: ''
     }
@@ -29,14 +28,14 @@ class Signin extends Component {
         }));
     }
 
-    onSubmit = async (evt, signupMutation) => {
+    onSubmit = async (evt, signinMutation) => {
             evt.preventDefault();
         try {
-            const response = await signupMutation();
+            const response = await signinMutation();
+            // console.log('Success!!');
             // Clear input fields.
             this.setState(() => ({
                 email: '',
-                name: '',
                 password: ''
             }));
         } catch(error) {
@@ -45,14 +44,14 @@ class Signin extends Component {
     };
  
     render() {
-        const { email, name, password } = this.state;
+        const { email, password } = this.state;
         return (
             <Mutation
                 mutation={SIGNIN_MUTATION}
                 variables={this.state}
                 refetchQueries={[{ query: CURRENT_USER_QUERY }]}
             >
-                {(signup, { error, loading }) => {
+                {(signin, { error, loading }) => {
                     return (
                         <Form onSubmit={evt => {this.onSubmit(evt, signin)}} method="post">
                             <fieldset disabled={loading} aria-busy={loading}>

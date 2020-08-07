@@ -47,7 +47,9 @@ class Items extends React.Component {
     // }
     render() {
         return (
+
             <Center>
+                <h1>ITEMS COMP</h1>
                 <Pagination page={this.props.page} />
                 <Query 
                     query={ALL_ITEMS_QUERY}
