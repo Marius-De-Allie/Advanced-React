@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import calcTotalPrice from '../lib/calcTotalPrice';
 import ErrorMessage from './ErrorMessage';
-// import User, { CURRENT_USER_QUERY } from './User';
+import User, { CURRENT_USER_QUERY } from './User';
 
 const CREATE_ORDER_MUTATION = gql`
     mutation createOrder($token: String!) {
@@ -27,14 +27,14 @@ const CREATE_ORDER_MUTATION = gql`
 class TakeMyMoney extends Component {
 
     totalItems = cart => {
-        return cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)
+        return cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0);
     }
 
-    onToken = async (res, createOrder) => {
+    onToken = async (res, mutation) => {
         NProgress.start();
         const id = await res.id
         // manually call the createOrder mutation once we have the stripe token.
-        const order = await createOrder({
+        const order = await mutation({
             variables: {
                 token: id
             }
@@ -42,6 +42,7 @@ class TakeMyMoney extends Component {
         .catch(e => {
             alert(e.message);
         });
+        console.log(order);
         Router.push({
             pathname: '/order',
             query: { id: order.data.createOrder.id }
@@ -51,32 +52,29 @@ class TakeMyMoney extends Component {
     render() {
         return (
             <div>
-                {/*<>User>
+                <User>
                     {({ data: { me } }) => (
-                        <StripeCheckout>{this.props.children}</StripeCheckout>
-                    )}
-                </User>*/}
-                {this.props.children}
-                <Mutation
-                    mutation={CREATE_ORDER_MUTATION}
-                   
-                >
-                    {(createOrder) => (
-                        <StripeCheckout
-                            amount={calcTotalPrice(me.cart)}
-                            name="Sick Fits"
-                            description={`Order of ${this.totalItems(me.cart)} items`}
-                            image={me.cart.length && me.cart[0].item && me.cart[0].item.image}
-                            stripeKey={process.env.STRIPE_PUB_KEY}
-                            currency="USD"
-                            email={me.email}
-                            token={res => this.onToken(res, createOrder)}
+                        <Mutation 
+                            mutation={CREATE_ORDER_MUTATION}
+                            refetchQueries={[{ query: CURRENT_USER_QUERY }]}
                         >
-                            {this.props.children}
-                        </StripeCheckout>
+                            {(createOrder) => (
+                            <StripeCheckout
+                                amount={calcTotalPrice(me.cart)}
+                                name="Sick Fits"
+                                description={`Order of ${this.totalItems(me.cart)} items`}
+                                image={me.cart.length && me.cart[0].item && me.cart[0].item.image}
+                                stripeKey="pk_test_51Gvru9BC8emmIHok575meXvz37Ly5cn5BhiKZ6vfuojHhDQoCGbu64WLEuD9ui5bzKcSbWHXf02kQh8ie8bHArSm00bUe3IFxb"
+                                currency="USD"
+                                email={me.email}
+                                token={res => this.onToken(res, createOrder)}
+                            >
+                                {this.props.children}
+                            </StripeCheckout>
+                            )}
+                        </Mutation>
                     )}
-                </Mutation>
-
+                </User>
             </div>
         );
     }

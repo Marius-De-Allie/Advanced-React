@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import RemoveFromCart from './RemoveFromCart';
 
-const cartItemsStyles = styled.li`
+const CartItemsStyles = styled.li`
     padding: 1rem;
     border-bottom: 1px solid ${props => props.theme.lightgrey};
     display: grid;
@@ -21,11 +21,11 @@ const cartItemsStyles = styled.li`
 const CartItem = ({ cartItem }) => {
     // check if that item exists.
     if(!cartItem.item) return 
-        <cartItemsStyles>
+        <CartItemsStyles>
             <p>This Item has been removed.</p><RemoveFromCart />
-        </cartItemsStyles>
+        </CartItemsStyles>
     return (
-        <cartItemsStyles>
+        <CartItemsStyles>
             <img src={cartItem.item.image} alt={cartItem.item.title} witdh="100" />
             <div className="cart-item-details">
                 <h3>{cartItem.item.title}</h3>
@@ -39,7 +39,7 @@ const CartItem = ({ cartItem }) => {
                 <p>{cartItem.item.description}</p>
             </div>
             <RemoveFromCart id={cartItem.id} />
-        </cartItemsStyles>
+        </CartItemsStyles>
     );
 };
 

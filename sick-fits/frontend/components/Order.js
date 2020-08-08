@@ -33,7 +33,7 @@ const SINGLE_ORDER_QUERY = gql`
 
 class Order extends React.Component {
     static propTypes = {
-        id: this.propTypes.string.isRequired
+        id: PropTypes.string.isRequired
     }
 
     render() {
