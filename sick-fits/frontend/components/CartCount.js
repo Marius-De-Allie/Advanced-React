@@ -41,21 +41,26 @@ const Dot = styled.div`
     font-variant-numeric: tabular-nums;
 `;
 
-const CartCount = ({ count }) => (
-    <AnimationStyles>
-        <TransitionGroup>
-            <CSSTransition 
-                unmountOnExit
-                className="count" 
-                classNames="count" 
-                key={count} 
-                timeout={{ enter: 400, exit: 400 }}
-            >
-                {count >= 0 && <Dot>{count}</Dot>}
-            </CSSTransition>
-        </TransitionGroup>
-    </AnimationStyles>
-);
+const CartCount = ({ count }) => {
+    const renderDot = () => {
+        
+    };
+    return (
+        <AnimationStyles>
+            <TransitionGroup>
+                <CSSTransition 
+                    unmountOnExit
+                    className="count" 
+                    classNames="count" 
+                    key={count} 
+                    timeout={{ enter: 400, exit: 400 }}
+                >
+                    <Dot>{count}</Dot>
+                </CSSTransition>
+            </TransitionGroup>
+        </AnimationStyles>
+    );
+};
 
 export default CartCount;
 

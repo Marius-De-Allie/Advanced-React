@@ -4,7 +4,7 @@ import Link from 'next/link';
 import PleaseSignin from '../components/PleaseSignin';
 import OrderList from '../components/OrderList';
 
-const Orders = (props) => (
+const Orders = () => (
     <PleaseSignin>
         <OrderList />
     </PleaseSignin>
