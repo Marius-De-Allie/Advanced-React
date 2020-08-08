@@ -48,7 +48,7 @@ const Nav = (props) => (
 
 export default Nav;
 
-{/* <CartCount count={menubar.cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)} /> */}
+/* <CartCount count={menubar.cart.reduce((tally, cartItem) => tally + cartItem.quantity, 0)} /> */
 
 // const Nav = () => (
 //     <User>
