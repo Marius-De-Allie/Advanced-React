@@ -10,8 +10,9 @@ import User from './User';
 
 const Nav = (props) => (
         <User>
-            {({ data: { me }} ) => (
+            {({ data: { me } }) => (
                 <NavStyles>
+                    {me && <p style={{ padding: '1rem 3rem' }}>{me.name}</p>}
                     <Link href="/items">
                         <a>Shop</a>
                     </Link>
@@ -38,7 +39,7 @@ const Nav = (props) => (
                     )}
                     {!me && (
                         <Link href="/signup">
-                            <a>SignIn</a>
+                            <a>Sign In</a>
                         </Link>
                     )}
                 </NavStyles>

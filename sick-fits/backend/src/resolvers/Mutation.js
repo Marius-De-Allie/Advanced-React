@@ -86,7 +86,7 @@ const Mutation = {
     },
     async signin(parents, { email, password }, ctx, info) {
         // 1. Check if there is a user with that email
-        const user = await ctx.db.query.user({ where: { email }});
+        const user = await ctx.db.query.user({ where: { email } });
         if(!user) {
             throw new Error(`No such user found for email ${email}.`);
         }
