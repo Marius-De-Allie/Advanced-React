@@ -18,7 +18,7 @@ const Query = {
             where: { id: ctx.request.userId }
         }, info);
     },
-    async createOrder(parent, args, ctx, info) {
+    async order(parent, args, ctx, info) {
         // Make sure user is logged in.
         if(!ctx.request.userId) {
             throw new Error(`You aren't logged in!`)
