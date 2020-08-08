@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import Order from '../components/Order';
 
-const OrderPage = () => (
+const OrderPage = props => (
     <div>
         <Order id={props.query.id} />
     </div>

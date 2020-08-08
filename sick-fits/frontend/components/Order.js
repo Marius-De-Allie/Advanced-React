@@ -49,7 +49,7 @@ class Order extends React.Component {
                     return (
                     <OrderStyles>
                         <Head>
-                            <title>Sick Fits - Order {order.title}</title>
+                            <title>Sick Fits - Order {order.id}</title>
                         </Head>
                         <p>
                             <span>Order ID:</span>
@@ -67,18 +67,14 @@ class Order extends React.Component {
                         </p>
                         <p>
                             <span>Order Total</span>
-                            <span>
-                                {formatMoney(order.total)}
-                            </span>
+                            <span>{formatMoney(order.total)}</span>
                         </p>
                         <p>
                             <span>Item Count</span>
-                            <span>
-                                {order.items.length}
-                            </span>
+                            <span>{order.items.length}</span>
                         </p>
                         <div className="items">
-                            {order.items.map(item => <OrderItem item={item} key={item.id}/>)}
+                            {order.items.map(item => <OrderItem key={item.id} item={item} />)}
                         </div>
                     </OrderStyles>
                     );
