@@ -4,19 +4,18 @@ const { randomBytes } = require('crypto');
 const { promisify } = require('util');
 // const { SingleFieldSubscriptions } = require("graphql/validation/rules/SingleFieldSubscriptions");
 const stripe = require('../stripe');
+const { transport, makeANiceEmil } = require('../mail');
 
 const Mutation = {
     async createItem(parent, args, ctx, info) {
-        // TODO check if they are logged in.
+        // Check if they are logged in.
         if(!ctx.request.userId) {
-            throw new Error(`You must be logged in to do that.`)
+            throw new Error(`You must be logged in to do that.`);
         }
         const item = await ctx.db.mutation.createItem({
             data: {
                 // This is how to create a relationship between item and user.
-                user: {connect: {
-                    id: ctx.request.userId
-                }},
+                user: { connect: { id: ctx.request.userId } },
                 ...args
             }
         }, info);
@@ -111,25 +110,34 @@ const Mutation = {
     },
     async requestReset(parent, args, ctx, info) {
         // Check if this a real user
-        const user = await ctx.db.query.user({ where: {email: args.email }});
+        const user = await ctx.db.query.user({ where: {email: args.email } });
         if(!user) {
             throw new Error(`No such user found for email ${args.email}.`);
         }
         // Set a reset token and expiry
-        const randomBtyespromisified = promisify(randomBytes);
-        const resetToken = await randomBtyespromisified(20).toString('hex');
+        const randomBtyesPromisified = promisify(randomBytes);
+        const resetToken = (await randomBtyesPromisified(20)).toString('hex');
         const resetTokenExpiry = Date.now() + 3600000; // 1 hour from current time.
         const res = await ctx.db.mutation.updateUser({ 
             where: { email: args.email },
             data: { resetToken, resetTokenExpiry }
         });
         // email them the reset token
-        
-
+        const mailRes =  await transport.sendMail({
+            from: 'mdeallie@test.com',
+            to: user.email,
+            subject: 'Your password reset token.',
+            html: makeANiceEmil(`Your Password Reset Token is here! \n\n 
+            <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">
+                Click here to reset
+            </a>`)
+        });
+        // Return the message.
+        return { message: 'Thanks!' };
 
     },
     async resetPassword(parent, args, ctx , info) {
-        // check if passwords macth.
+        // check if passwords match.
         if(args.password !== args.confirmPassword) {
             throw new Error('Your passwords do not match');
         }
@@ -237,7 +245,7 @@ const Mutation = {
                 tally + (cartItem.item.price * cartItem.quantity), 
                 0
             );
-            console.log(`Going to charge for atotal of ${amount}`);
+            console.log(`Going to charge for a total of ${amount}`);
         // Create the stripe charge (turn token into $).
         const charge = await stripe.charges.create({
             amount,

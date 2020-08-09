@@ -24,6 +24,16 @@ server.express.use((req, res, next) => {
     next();
 });
 
+// 2. Create a middleware that populate sthe usre on eahc request.
+server.express.use(async (req, res, next) => {
+    // if they aren't logged in, skip this.
+    if(!req.userId) return next();
+    const user = await db.query.user({ where: { id: req.userId } },
+    `{id, permissions, email, name }`);
+    req.user = user;
+    next();
+})
+
 // Start up YOGA server.
 server.start({
     cors: {

@@ -1,5 +1,6 @@
 const { forwardTo } = require("prisma-binding");
 const { createOrder } = require("./Mutation");
+const { hasPermission } = require('../utils');
 
 const Query = {
     // async items(parent, args, ctx, info) {
@@ -9,7 +10,6 @@ const Query = {
     items: forwardTo('db'),
     item: forwardTo('db'),
     itemsConnection: forwardTo('db'),
-    
     me(parent, args, ctx, info) {
         // check if there is a current user ID
         if(!ctx.request.userId) {
@@ -18,6 +18,16 @@ const Query = {
         return ctx.db.query.user({
             where: { id: ctx.request.userId }
         }, info);
+    },
+    async users(parent, args, ctx, info) {
+        // Check if user is logged in.
+        if(!ctx.request.userId) {
+            throw new Error(`You must be logged in.`);
+        }
+        // Check if the user has a the permissions to query all the users.
+        hasPermission(ctx.request.user, ['ADMIN', 'PERMISSIONUPDATE']);
+        // If they do, Query all the users.
+        ctx.db.users({}, info)
     },
     async order(parent, args, ctx, info) {
         // Make sure user is logged in.

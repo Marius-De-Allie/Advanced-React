@@ -1,10 +1,27 @@
 import React from 'react';
 import { Query } from 'react-apollo';
-import DefaultClient from 'apollo-boost';
+import gql from 'graphql-tag';
+import ErrorMessage from './ErrorMessage';
+
+const ALL_USERS_QUERY = gql`
+    query ALL_USERS_QUERY {
+        users {
+            id
+            name
+            email
+            permissions
+        }
+    }
+`;
 
 const Permissions = () => (
-    <Query>
-
+    <Query query={ALL_USERS_QUERY}>
+        {({ data, loading, error }) => (
+            <div>
+                <ErrorMessage error={error} />
+                <p>Hey</p>
+            </div>
+        )}
     </Query>
 );
 
