@@ -7,8 +7,8 @@ import PropTypes from 'prop-types';
 import { CURRENT_USER_QUERY } from './User';
 
 const RESET_MUTATION = gql`
-    mutation RESET_MUTATION($resetToken: String!, password: String!, confirmPassword: String!) {
-        reset(resetToken: $resetToken, password: $password, confirmPassword: $confirmPassword) {
+    mutation RESET_MUTATION($resetToken: String!, $password: String!, $confirmPassword: String!) {
+        resetPassword(resetToken: $resetToken, password: $password, confirmPassword: $confirmPassword) {
             id
             email
             name
@@ -55,9 +55,9 @@ class Reset extends Component {
                  confirmPassword: this.state.confirmPassword }}
                  refetchQueries={[{ QUERY: CURRENT_USER_QUERY }]}
             >
-                {(reset, { error, loading, called }) => {
+                {(resetPassword, { error, loading, called }) => {
                     return (
-                        <Form onSubmit={evt => {this.onSubmit(evt, reset)}} method="post">
+                        <Form onSubmit={evt => {this.onSubmit(evt, resetPassword)}} method="post">
                             <fieldset disabled={loading} aria-busy={loading}>
                                 <h2>Reset your Password.</h2>
                                 <ErrorMessage error={error} />

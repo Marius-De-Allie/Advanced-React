@@ -44,9 +44,9 @@ class RequestReset extends Component {
                 mutation={REQUEST_RESET_MUTATION}
                 variables={this.state}
             >
-                {(reset, { error, loading, called }) => {
+                {(requestReset, { error, loading, called }) => {
                     return (
-                        <Form onSubmit={evt => {this.onSubmit(evt, reset)}} method="post">
+                        <Form onSubmit={evt => {this.onSubmit(evt, requestReset)}} method="post">
                             <fieldset disabled={loading} aria-busy={loading}>
                                 <h2>Request a password reset</h2>
                                 <ErrorMessage error={error} />

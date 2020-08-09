@@ -32,21 +32,21 @@ class TakeMyMoney extends Component {
 
     onToken = async (res, mutation) => {
         NProgress.start();
-        const id = await res.id
+        // const id = await res.id
         // manually call the createOrder mutation once we have the stripe token.
         const order = await mutation({
             variables: {
-                token: id
+                token: res.id
             }
         })
         .catch(e => {
             alert(e.message);
         });
         console.log(order);
-        Router.push({
-            pathname: '/order',
-            query: { id: order.data.createOrder.id }
-        })
+        // Router.push({
+        //     pathname: '/order',
+        //     query: { id: order.data.createOrder.id }
+        // })
     };
 
     render() {
