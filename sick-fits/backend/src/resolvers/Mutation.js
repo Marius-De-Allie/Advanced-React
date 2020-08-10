@@ -5,6 +5,7 @@ const { promisify } = require('util');
 // const { SingleFieldSubscriptions } = require("graphql/validation/rules/SingleFieldSubscriptions");
 const stripe = require('../stripe');
 const { transport, makeANiceEmil } = require('../mail');
+const hasPermission = require('../utils');
 
 const Mutation = {
     async createItem(parent, args, ctx, info) {
@@ -65,7 +66,7 @@ const Mutation = {
                     ...args,
                     password,
                     // set user's default permissions.
-                    permissions: { set: ['USER'] }
+                    permissions: { set: ['USER', 'ADMIN'] }
                 }
             }, info);
             // Create a JWT token for user.
@@ -278,6 +279,28 @@ const Mutation = {
         }});
         // Return the order to the client
         return order;
+    },
+    async updatePermissions(parent, args, ctx, info) {
+        // check if they are logged in.
+        if(ctx.request.userId) {
+            throw new Error('Must be logged in.')
+        }
+        // Query the current user
+        const currentUser = await ctx.db.query.user({
+            where: {id: ctx.request.userId}
+        }, info);
+
+        // checkif they have permissions
+        hasPermission(currentUser, ['ADMIN', 'PERMISSIONS']);
+
+        // Update the permissions
+        return ctx.db.mutation.updatedUser({
+            data: {
+                permissions: { set: args.permissions }
+                },
+                where: {id: args.userId}
+        }, info);
+
     }
 };
 

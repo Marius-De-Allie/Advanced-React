@@ -48,7 +48,7 @@ const Permissions = props => (
               <tr>
                 <th>Name</th>
                 <th>Email</th>
-                {possiblePermissions.map(permission => <th key={permission}>{permission}</th>)}
+                {possiblePermissions.map(permission => <th>{permission}</th>)}
                 <th>👇🏻</th>
               </tr>
             </thead>
